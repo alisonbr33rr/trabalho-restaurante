@@ -35,10 +35,11 @@ header{
 
 .logo{
     font-family:'Bodoni Moda', serif;
-    font-size:55px;
+    font-size:60px;
     font-weight:400;
-    letter-spacing:10px;
+    letter-spacing:14px;
     color:#E0A267;
+    text-transform:uppercase;
 }
 
 
