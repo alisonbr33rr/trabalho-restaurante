@@ -1,260 +1,311 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Essenza | Gastronomia Premium</title>
+<title>Essenza | Restaurante</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
+}
+
+body{
+background:#F4EFD3;
+font-family:'Poppins',sans-serif;
+color:#04382E;
+overflow-x:hidden;
+}
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+ul{
+list-style:none;
+}
+
+img{
+max-width:100%;
+display:block;
+}
+
+section{
+padding:100px 8%;
+}
+
+.container{
+max-width:1400px;
+margin:auto;
+}
+
+/* NAVBAR */
+
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+z-index:999;
+background:rgba(4,56,46,.75);
+backdrop-filter:blur(15px);
+transition:.4s;
+}
+
+nav{
+height:90px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 8%;
+}
+
+.logo{
+
+font-family:'Cormorant Garamond',serif;
+font-size:42px;
+letter-spacing:6px;
+font-weight:700;
+color:#F4EFD3;
+}
+
+.logo span{
+color:#E0A267;
+}
+
+.menu{
+display:flex;
+gap:45px;
+}
+
+.menu a{
+
+color:#F4EFD3;
+font-size:15px;
+transition:.3s;
+position:relative;
+
+}
+
+.menu a::after{
+
+content:'';
+position:absolute;
+left:0;
+bottom:-8px;
+width:0%;
+height:2px;
+background:#E0A267;
+transition:.4s;
+
+}
+
+.menu a:hover::after{
+
+width:100%;
+
+}
+
+.btn{
+
+padding:14px 32px;
+border:2px solid #E0A267;
+color:#F4EFD3;
+border-radius:40px;
+transition:.4s;
+
+}
+
+.btn:hover{
+
+background:#E0A267;
+color:#04382E;
+
+}
+
+/* HERO */
+
+.hero{
+
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:
+linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80');
+
+background-size:cover;
+background-position:center;
+text-align:center;
+
+}
+
+.hero h1{
+
+font-family:'Cormorant Garamond',serif;
+font-size:90px;
+color:white;
+font-weight:600;
+letter-spacing:6px;
+margin-bottom:20px;
+
+}
+
+.hero p{
+
+font-size:20px;
+color:#F4EFD3;
+max-width:700px;
+margin:auto;
+line-height:1.8;
+
+}
+
+.hero-buttons{
+
+margin-top:50px;
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+
+}
+
+.hero-buttons a{
+
+padding:16px 40px;
+border-radius:50px;
+font-size:15px;
+transition:.4s;
+
+}
+
+.btn1{
+
+background:#E0A267;
+color:#04382E;
+
+}
+
+.btn2{
+
+border:2px solid white;
+color:white;
+
+}
+
+.btn1:hover{
+
+transform:translateY(-6px);
+
+}
+
+.btn2:hover{
+
+background:white;
+color:#04382E;
+
+}
+
+/* RESPONSIVO */
+
+@media(max-width:900px){
+
+.hero h1{
+
+font-size:55px;
+
+}
+
+.menu{
+
+display:none;
+
+}
+
+}
+
+</style>
 
 </head>
-
-
 <body>
-
 
 <header>
 
-<nav class="navbar">
+<nav>
 
 <div class="logo">
-    <span>ESSENZA</span>
+ESSENZA<span>.</span>
 </div>
-
 
 <ul class="menu">
 
-<li><a href="#inicio">Início</a></li>
+<li><a href="#">Início</a></li>
 
-<li><a href="#essencia">Essência</a></li>
+<li><a href="#historia">História</a></li>
 
-<li><a href="#cardapio">Cardápio</a></li>
+<li><a href="#menu">Cardápio</a></li>
 
-<li><a href="#experiencia">Experiência</a></li>
+<li><a href="#galeria">Galeria</a></li>
+
+<li><a href="#avaliacoes">Avaliações</a></li>
 
 <li><a href="#contato">Contato</a></li>
 
 </ul>
 
+<a href="#" class="btn">
+Reservar
+</a>
 
 </nav>
 
 </header>
 
-
-
-<section id="inicio" class="hero">
-
+<section class="hero">
 
 <div>
 
-<h1>
-Uma experiência além do sabor
-</h1>
-
+<h1>ESSENZA</h1>
 
 <p>
-Alta gastronomia, elegância e ingredientes selecionados em um ambiente único.
+
+Uma experiência gastronômica sofisticada, onde ingredientes selecionados,
+técnicas refinadas e um ambiente elegante transformam cada refeição em um momento inesquecível.
+
 </p>
 
+<div class="hero-buttons">
 
-<a href="#cardapio" class="botao">
-Conheça o Menu
+<a href="#menu" class="btn1">
+
+Ver Cardápio
+
 </a>
 
+<a href="#contato" class="btn2">
 
-</div>
-
-
-</section>
-
-
-
-
-
-<section id="essencia">
-
-
-<h2>
-Nossa Essência
-</h2>
-
-
-<p>
-
-O ESSENZA é voltado para adultos de 28 a 60 anos, principalmente das classes A e B, que apreciam gastronomia contemporânea, ingredientes de alta qualidade e experiências sofisticadas.
-
-O restaurante atende casais, famílias, empresários e turistas que buscam um ambiente elegante para encontros, comemorações e refeições especiais, valorizando excelência no atendimento, conforto e exclusividade.
-
-</p>
-
-
-</section>
-
-
-
-
-
-<section id="cardapio">
-
-
-<h2>
-Menu Essenza
-</h2>
-
-
-<div class="cards">
-
-
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=800">
-
-<h3>
-Entrada Especial
-</h3>
-
-<p>
-Sabores delicados preparados com ingredientes selecionados.
-</p>
-
-<span>
-R$ 45,00
-</span>
-
-</div>
-
-
-
-
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800">
-
-<h3>
-Prato Principal
-</h3>
-
-<p>
-Uma combinação sofisticada de aromas e texturas.
-</p>
-
-<span>
-R$ 89,00
-</span>
-
-</div>
-
-
-
-
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800">
-
-<h3>
-Sobremesa Artesanal
-</h3>
-
-<p>
-Finalização perfeita para uma experiência memorável.
-</p>
-
-<span>
-R$ 35,00
-</span>
-
-</div>
-
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section id="experiencia">
-
-
-<h2>
-A Experiência
-</h2>
-
-
-<p>
-
-No ESSENZA, cada detalhe é pensado para oferecer uma experiência exclusiva, unindo gastronomia contemporânea, ambiente sofisticado e atendimento personalizado.
-
-</p>
-
-
-</section>
-
-
-
-
-
-
-
-<section id="contato">
-
-
-<h2>
-Contato
-</h2>
-
-
-<p>
-📍 Rua das Flores, 123
-</p>
-
-
-<p>
-📞 (27) 99999-9999
-</p>
-
-
-<p>
-✉ contato@essenza.com
-</p>
-
-
-<a class="botao">
 Reservar Mesa
+
 </a>
 
+</div>
+
+</div>
 
 </section>
-
-
-
-
-
-<footer>
-
-<p>
-© 2026 Essenza Gastronomia Premium
-</p>
-
-</footer>
-
-
-
-<script src="script.js"></script>
-
 
 </body>
-
 </html>
