@@ -15,7 +15,7 @@ body{
 }
 
 
-/* MENU SUPERIOR */
+/* MENU */
 
 header{
     position:fixed;
@@ -25,93 +25,67 @@ header{
     height:100px;
     background:#04382E;
     border-bottom:1px solid #E0A267;
-    z-index:999;
+    z-index:1000;
 }
 
 
 .navbar{
-
-    height:100%;
-
     max-width:1200px;
-
+    height:100%;
     margin:auto;
-
     padding:0 40px;
 
     display:flex;
-
-    justify-content:space-between;
-
     align-items:center;
-
+    justify-content:space-between;
 }
 
 
 /* LOGO */
 
 .logo{
-
     font-family:'Bodoni Moda', serif;
-
-    color:#E0A267;
-
     font-size:55px;
-
     font-weight:400;
-
     letter-spacing:12px;
-
+    color:#E0A267;
 }
 
 
 
-/* MENU */
+/* MENU LINKS */
 
 .menu{
-
     display:flex;
-
     gap:30px;
-
     list-style:none;
-
 }
 
 
 .menu a{
-
     color:#F4EFD3;
-
     text-decoration:none;
-
     font-size:14px;
-
     letter-spacing:2px;
-
 }
 
 
 .menu a:hover{
-
     color:#E0A267;
-
 }
 
 
 
-/* PRIMEIRA PARTE */
+/* INICIO */
 
 .hero{
 
     min-height:100vh;
 
-    padding-top:100px;
+    padding-top:200px;
 
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 
     text-align:center;
@@ -120,8 +94,8 @@ header{
     background:
 
     linear-gradient(
-    rgba(4,56,46,0.75),
-    rgba(4,56,46,0.90)
+        rgba(4,56,46,.75),
+        rgba(4,56,46,.90)
     ),
 
     url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600");
@@ -150,11 +124,12 @@ header{
 }
 
 
+
 .hero p{
 
-    margin:30px auto;
-
     max-width:700px;
+
+    margin:30px auto;
 
     font-size:18px;
 
@@ -165,7 +140,6 @@ header{
 
 
 /* BOTÃO */
-
 
 .botao{
 
@@ -187,15 +161,26 @@ header{
 
 
 
-/* TODAS AS SEÇÕES */
+/* SEÇÕES */
 
 section{
 
-    padding:120px 10%;
+    padding:180px 10% 120px;
 
     text-align:center;
 
-    scroll-margin-top:100px;
+}
+
+
+
+/* CORREÇÃO DO MENU COBRINDO */
+
+#essencia,
+#cardapio,
+#experiencia,
+#contato{
+
+    padding-top:180px;
 
 }
 
@@ -205,13 +190,13 @@ section h2{
 
     font-family:'Bodoni Moda',serif;
 
-    color:#E0A267;
-
     font-size:45px;
 
     font-weight:400;
 
     letter-spacing:3px;
+
+    color:#E0A267;
 
     margin-bottom:40px;
 
@@ -225,16 +210,15 @@ section p{
 
     margin:auto;
 
-    font-size:17px;
-
     line-height:2;
+
+    font-size:17px;
 
 }
 
 
 
 /* CARDÁPIO */
-
 
 .cards{
 
@@ -278,9 +262,9 @@ section p{
 
     font-family:'Bodoni Moda',serif;
 
-    font-size:28px;
-
     color:#F4EFD3;
+
+    font-size:28px;
 
     margin:20px;
 
@@ -288,10 +272,6 @@ section p{
 
 
 .card span{
-
-    display:block;
-
-    margin-top:20px;
 
     color:#E0A267;
 
@@ -301,7 +281,7 @@ section p{
 
 
 
-/* RODAPÉ */
+/* FOOTER */
 
 footer{
 
@@ -319,18 +299,18 @@ footer{
 
 @media(max-width:900px){
 
+header{
+
+    height:auto;
+
+}
+
+
 .navbar{
 
     flex-direction:column;
 
     padding:20px;
-
-}
-
-
-header{
-
-    height:auto;
 
 }
 
@@ -344,7 +324,7 @@ header{
 
 .menu{
 
-    margin-top:15px;
+    margin-top:20px;
 
     flex-wrap:wrap;
 
@@ -358,5 +338,6 @@ header{
     font-size:45px;
 
 }
+
 
 }
