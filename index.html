@@ -3,261 +3,247 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Vale Verde V3</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vale Verde — Pixel Valley</title>
 
 <style>
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#111;
 }
 
 body{
-    overflow:hidden;
-    background:#10150f;
     font-family:Arial,sans-serif;
 }
 
 canvas{
+    width:100vw;
+    height:100vh;
     display:block;
     image-rendering:pixelated;
-}
-
-#hud{
-    position:fixed;
-    top:12px;
-    left:12px;
-    z-index:10;
-    color:white;
-    background:rgba(20,25,20,.88);
-    border:2px solid rgba(255,255,255,.18);
-    border-radius:12px;
-    padding:12px 15px;
-    min-width:205px;
-    line-height:1.55;
-    box-shadow:0 5px 20px rgba(0,0,0,.35);
-}
-
-.gold{
-    color:#ffd65c;
-}
-
-#energyBar,
-#waterBar{
-    width:170px;
-    height:11px;
-    background:#292929;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-#energy{
-    width:100%;
-    height:100%;
-    background:#e9c447;
-}
-
-#water{
-    width:100%;
-    height:100%;
-    background:#55bde7;
-}
-
-#inventory{
-    position:fixed;
-    bottom:17px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:10;
-    display:flex;
-    gap:6px;
-    background:rgba(20,20,20,.9);
-    padding:8px;
-    border-radius:13px;
-    border:2px solid rgba(255,255,255,.22);
-}
-
-.slot{
-    width:61px;
-    height:61px;
-    background:#292929;
-    border:2px solid #666;
-    border-radius:9px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:29px;
-    position:relative;
-}
-
-.slot.selected{
-    border-color:#ffe05d;
-    box-shadow:0 0 12px #ffe05d;
-}
-
-.slot span{
-    position:absolute;
-    right:5px;
-    bottom:2px;
-    color:white;
-    font-size:13px;
-    text-shadow:2px 2px #000;
-}
-
-#help{
-    position:fixed;
-    right:12px;
-    bottom:17px;
-    z-index:10;
-    color:white;
-    background:rgba(20,20,20,.78);
-    padding:10px 13px;
-    border-radius:10px;
-    font-size:13px;
-    line-height:1.45;
-}
-
-#dialog{
-    display:none;
-    position:fixed;
-    left:50%;
-    bottom:105px;
-    transform:translateX(-50%);
-    width:min(680px,90%);
-    background:rgba(28,24,20,.96);
-    border:3px solid #d8ad62;
-    color:white;
-    padding:18px;
-    border-radius:15px;
-    z-index:40;
-    box-shadow:0 10px 35px #0008;
-}
-
-#dialogName{
-    color:#ffd76a;
-    font-size:20px;
-    font-weight:bold;
-    margin-bottom:7px;
-}
-
-#dialogText{
-    font-size:17px;
-    line-height:1.5;
-}
-
-#dialog button{
-    margin-top:12px;
-    border:0;
-    border-radius:7px;
-    padding:7px 18px;
-    cursor:pointer;
-}
-
-#shop{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:50;
-    background:rgba(0,0,0,.78);
-    align-items:center;
-    justify-content:center;
-}
-
-.shopBox{
-    width:min(500px,90%);
-    background:#f0dfb8;
-    color:#352719;
-    border:5px solid #85552e;
-    border-radius:15px;
-    padding:25px;
-    text-align:center;
-}
-
-.shopBox h2{
-    margin-bottom:15px;
-}
-
-.shopItem{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:#fff4d8;
-    padding:12px;
-    margin:8px 0;
-    border-radius:9px;
-}
-
-.shopItem button{
-    border:0;
-    padding:8px 13px;
-    border-radius:7px;
-    cursor:pointer;
-    background:#79b94d;
-    font-weight:bold;
-}
-
-#toast{
-    display:none;
-    position:fixed;
-    top:18px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:60;
-    color:white;
-    background:#111d;
-    padding:10px 18px;
-    border-radius:10px;
+    image-rendering:crisp-edges;
 }
 
 #menu{
     position:fixed;
     inset:0;
     z-index:100;
-    background:linear-gradient(#162a1b,#08100a);
-    color:white;
     display:flex;
     flex-direction:column;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
+    color:white;
     text-align:center;
+    background:
+        linear-gradient(rgba(8,22,14,.55),rgba(5,12,8,.9)),
+        #315f3c;
 }
 
 #menu h1{
-    font-size:62px;
-    color:#82d957;
-    text-shadow:4px 4px #304f25;
+    font-size:64px;
+    letter-spacing:3px;
+    color:#e8d78c;
+    text-shadow:
+        4px 4px #263d26,
+        7px 7px #162719;
 }
 
 #menu h2{
-    color:#e6c576;
+    margin:5px 0 28px;
+    color:#c7dfae;
     font-weight:normal;
-    margin:5px 0 25px;
 }
 
-#menu p{
-    color:#ccc;
-    margin:4px;
-}
-
-.menuButtons{
-    display:flex;
-    gap:12px;
-}
-
-.menuButtons button{
-    margin-top:22px;
-    padding:14px 28px;
-    border:0;
-    border-radius:10px;
+.menuButton{
+    border:3px solid #513b27;
+    background:#d5aa62;
+    color:#2d2418;
+    padding:14px 34px;
+    margin:6px;
+    border-radius:8px;
     font-weight:bold;
     font-size:17px;
     cursor:pointer;
-    background:#79c94e;
+    box-shadow:0 5px #3c2b1e;
 }
 
-#loadBtn{
-    background:#d3a64f!important;
+.menuButton:hover{
+    transform:translateY(-2px);
+}
+
+#hud{
+    position:fixed;
+    left:13px;
+    top:13px;
+    z-index:20;
+    width:220px;
+    color:#fff;
+    background:rgba(28,29,25,.9);
+    border:3px solid #76654c;
+    border-radius:10px;
+    padding:11px;
+    box-shadow:0 5px 18px #0008;
+    font-size:14px;
+}
+
+.hudTitle{
+    color:#e9d48a;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.bar{
+    width:100%;
+    height:12px;
+    background:#282828;
+    border:1px solid #111;
+    margin:3px 0 7px;
+}
+
+.bar div{
+    height:100%;
+}
+
+#energy{
+    background:#e7c94c;
+}
+
+#water{
+    background:#55aee0;
+}
+
+#inventory{
+    position:fixed;
+    bottom:14px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:5px;
+    z-index:30;
+    padding:7px;
+    background:rgba(31,30,25,.92);
+    border:3px solid #76654c;
+    border-radius:9px;
+}
+
+.slot{
+    width:60px;
+    height:60px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    background:#423c31;
+    border:3px solid #726854;
+    border-radius:5px;
+    font-size:30px;
+}
+
+.slot.selected{
+    border-color:#ffe47a;
+    box-shadow:0 0 12px #ffe47a;
+}
+
+.slot small{
+    position:absolute;
+    bottom:2px;
+    right:4px;
+    color:white;
+    font-weight:bold;
+    text-shadow:2px 2px #000;
+}
+
+#controls{
+    position:fixed;
+    right:13px;
+    bottom:14px;
+    z-index:20;
+    background:rgba(28,29,25,.86);
+    color:#eee;
+    padding:10px;
+    border:2px solid #635a49;
+    border-radius:8px;
+    font-size:12px;
+    line-height:1.6;
+}
+
+#dialog{
+    position:fixed;
+    display:none;
+    left:50%;
+    bottom:100px;
+    transform:translateX(-50%);
+    width:min(720px,90%);
+    z-index:60;
+    background:#29251e;
+    border:4px solid #b89961;
+    border-radius:9px;
+    padding:16px;
+    color:#fff;
+    box-shadow:0 10px 30px #0009;
+}
+
+#dialogName{
+    color:#efd37d;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+#dialogText{
+    font-size:16px;
+    line-height:1.5;
+}
+
+#dialog button{
+    margin-top:10px;
+    border:0;
+    padding:7px 18px;
+    border-radius:5px;
+}
+
+#toast{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:80;
+    display:none;
+    background:#211f1add;
+    border:2px solid #aa915b;
+    color:white;
+    padding:9px 17px;
+    border-radius:7px;
+}
+
+/* =========================
+   TELAS MENORES
+========================= */
+
+@media(max-width:700px){
+
+    #hud{
+        transform:scale(.8);
+        transform-origin:top left;
+    }
+
+    #controls{
+        display:none;
+    }
+
+    .slot{
+        width:48px;
+        height:48px;
+        font-size:24px;
+    }
 }
 </style>
 </head>
@@ -266,41 +252,59 @@ canvas{
 
 <div id="menu">
 
-    <h1>🌿 VALE VERDE</h1>
-    <h2>V3 — Uma vida nova começa aqui</h2>
+    <h1>VALE VERDE</h1>
+    <h2>Uma pequena vida, um grande mundo.</h2>
 
-    <p>🌾 Fazenda</p>
-    <p>🎣 Pesca</p>
-    <p>🐔 Animais</p>
-    <p>🧑 NPCs</p>
+    <button class="menuButton" onclick="startNew()">🌱 NOVO JOGO</button>
+    <button class="menuButton" onclick="loadGame()">💾 CARREGAR</button>
 
-    <div class="menuButtons">
-        <button onclick="newGame()">NOVO JOGO</button>
-        <button id="loadBtn" onclick="loadGame()">CARREGAR</button>
-    </div>
+    <p style="margin-top:22px;color:#bbb">
+        Pixel Valley Edition
+    </p>
 
 </div>
 
 <div id="hud">
 
-    📅 Dia <b id="day">1</b><br>
-    🕐 <b id="clock">06:00</b><br>
+    <div class="hudTitle">🌿 VALE VERDE</div>
 
-    💰 <span class="gold">R$ <span id="money">100</span></span><br>
+    📅 Dia <b id="day">1</b>
+    &nbsp; 🕐 <b id="time">06:00</b>
+
+    <br>
+
+    ☀️ <span id="weather">Ensolarado</span>
+
+    <br><br>
+
+    💰 R$ <b id="money">100</b>
+
+    <br>
 
     ⚡ Energia
-    <div id="energyBar">
+
+    <div class="bar">
         <div id="energy"></div>
     </div>
 
     💧 Água
-    <div id="waterBar">
+
+    <div class="bar">
         <div id="water"></div>
     </div>
 
-    🌱 Sementes: <b id="seeds">5</b><br>
-    🥕 Colheitas: <b id="crops">0</b><br>
-    🐟 Peixes: <b id="fish">0</b>
+    🌱 Sementes:
+    <b id="seedText">5</b>
+
+    <br>
+
+    🥕 Colheitas:
+    <b id="cropText">0</b>
+
+    <br>
+
+    🐟 Peixes:
+    <b id="fishText">0</b>
 
 </div>
 
@@ -308,12 +312,12 @@ canvas{
 
     <div class="slot selected" id="slot0">
         🌱
-        <span id="invSeeds">5</span>
+        <small id="s0">5</small>
     </div>
 
     <div class="slot" id="slot1">
         🥕
-        <span id="invCrops">0</span>
+        <small id="s1">0</small>
     </div>
 
     <div class="slot" id="slot2">
@@ -330,19 +334,22 @@ canvas{
 
     <div class="slot" id="slot5">
         🎣
-        <span id="invFish">0</span>
+        <small id="s5">0</small>
     </div>
 
 </div>
 
-<div id="help">
-    <b>WASD</b> andar<br>
-    <b>E</b> interagir<br>
-    <b>R</b> regar<br>
-    <b>F</b> colher<br>
-    <b>G</b> vender<br>
-    <b>1-6</b> itens<br>
-    <b>P</b> salvar
+<div id="controls">
+
+    <b>CONTROLES</b><br>
+    WASD — andar<br>
+    E — interagir / plantar<br>
+    R — regar<br>
+    F — colher<br>
+    G — vender<br>
+    1–6 — ferramentas<br>
+    P — salvar
+
 </div>
 
 <div id="dialog">
@@ -350,29 +357,7 @@ canvas{
     <div id="dialogName"></div>
     <div id="dialogText"></div>
 
-    <button onclick="closeDialog()">Fechar</button>
-
-</div>
-
-<div id="shop">
-
-    <div class="shopBox">
-
-        <h2>🏪 Loja do Vale</h2>
-
-        <div class="shopItem">
-            <span>🌱 5 sementes — R$25</span>
-            <button onclick="buySeeds()">Comprar</button>
-        </div>
-
-        <div class="shopItem">
-            <span>💧 Encher regador</span>
-            <button onclick="fillWater()">Encher</button>
-        </div>
-
-        <button onclick="closeShop()">Fechar loja</button>
-
-    </div>
+    <button onclick="closeDialog()">Continuar</button>
 
 </div>
 
@@ -382,37 +367,37 @@ canvas{
 
 <script>
 
-/* =====================================================
-   CONFIG
-===================================================== */
+/* =========================================================
+   VALE VERDE
+   PIXEL VALLEY ENGINE
+========================================================= */
 
 const canvas=document.getElementById("game");
 const ctx=canvas.getContext("2d");
 
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+const VIEW_W=480;
+const VIEW_H=270;
 
-window.addEventListener("resize",()=>{
-    canvas.width=window.innerWidth;
-    canvas.height=window.innerHeight;
-});
+canvas.width=VIEW_W;
+canvas.height=VIEW_H;
 
-const TILE=48;
+const TILE=16;
 
-const MAP_W=80;
-const MAP_H=50;
+const MAP_W=120;
+const MAP_H=80;
+
+let map=[];
+
+let game=false;
 
 let keys={};
 
-let gameStarted=false;
+let camera={
+    x:0,
+    y:0
+};
 
-let farm=[];
-
-let npcs=[];
-
-let animals=[];
-
-let selectedSlot=0;
+let selected=0;
 
 let day=1;
 let hour=6;
@@ -425,54 +410,52 @@ let crops=0;
 let fish=0;
 
 let energy=100;
-let waterLevel=100;
+let water=100;
 
 let weather="sun";
 
-let lastTime=Date.now();
-
-let camera={
-    x:0,
-    y:0
-};
+let tick=0;
 
 let player={
-    x:0,
-    y:0,
-    speed:3,
+    x:12*TILE,
+    y:25*TILE,
     direction:"down",
     walking:false,
-    animation:0
+    frame:0
 };
 
+let npcs=[];
 
-/* =====================================================
-   TECLADO
-===================================================== */
+let animals=[];
+
+let particles=[];
+
+
+/* =========================================================
+   INPUT
+========================================================= */
 
 document.addEventListener("keydown",e=>{
 
-    const key=e.key.toLowerCase();
+    keys[e.key.toLowerCase()]=true;
 
-    keys[key]=true;
+    if(!game)return;
 
-    if(!gameStarted)return;
+    let k=e.key.toLowerCase();
 
-    if(key>="1"&&key<="6"){
-        selectSlot(Number(key)-1);
+    if(k>="1"&&k<="6"){
+        selectSlot(Number(k)-1);
     }
 
-    if(key==="e") interact();
-    if(key==="r") waterPlant();
-    if(key==="f") harvest();
-    if(key==="g") sellAll();
-    if(key==="p") saveGame();
+    if(k==="e")interact();
+    if(k==="r")waterPlant();
+    if(k==="f")harvest();
+    if(k==="g")sell();
+    if(k==="p")saveGame();
 
-    if(key==="escape"){
+    if(k==="escape"){
         closeDialog();
-        closeShop();
     }
-
 });
 
 document.addEventListener("keyup",e=>{
@@ -480,63 +463,33 @@ document.addEventListener("keyup",e=>{
 });
 
 
-/* =====================================================
-   NOVO JOGO
-===================================================== */
-
-function newGame(){
-
-    document.getElementById("menu").style.display="none";
-
-    day=1;
-    hour=6;
-    minute=0;
-
-    money=100;
-    seeds=5;
-    crops=0;
-    fish=0;
-
-    energy=100;
-    waterLevel=100;
-
-    weather="sun";
-
-    createWorld();
-
-    player.x=12*TILE;
-    player.y=25*TILE;
-
-    gameStarted=true;
-
-    updateHUD();
-
-    showToast("Bem-vindo ao Vale Verde! 🌿");
-}
-
-
-/* =====================================================
-   MUNDO
-===================================================== */
+/* =========================================================
+   WORLD
+========================================================= */
 
 function createWorld(){
 
-    farm=[];
+    map=[];
 
     for(let y=0;y<MAP_H;y++){
 
-        farm[y]=[];
+        map[y]=[];
 
         for(let x=0;x<MAP_W;x++){
 
-            let type="grass";
+            let tile={
+                type:"grass",
+                crop:null,
+                watered:false,
+                variant:Math.floor(Math.random()*4)
+            };
 
             /*
             RIO
             */
 
-            if(x>=58&&x<=61){
-                type="water";
+            if(x>=57&&x<=61){
+                tile.type="water";
             }
 
             /*
@@ -544,12 +497,10 @@ function createWorld(){
             */
 
             if(
-                x>=65&&
-                x<=74&&
-                y>=4&&
-                y<=14
+                x>=69&&x<=82&&
+                y>=5&&y<=17
             ){
-                type="water";
+                tile.type="water";
             }
 
             /*
@@ -557,25 +508,22 @@ function createWorld(){
             */
 
             if(
-                x>=5&&
-                x<=23&&
-                y>=18&&
-                y<=29
+                x>=6&&x<=27&&
+                y>=18&&y<=34
             ){
-                type="soil";
+                tile.type="soil";
             }
 
             /*
-            CASA
+            CAMINHOS
             */
 
-            if(
-                x>=7&&
-                x<=13&&
-                y>=32&&
-                y<=37
-            ){
-                type="house";
+            if(y>=23&&y<=25){
+                tile.type="path";
+            }
+
+            if(x>=33&&x<=35){
+                tile.type="path";
             }
 
             /*
@@ -583,20 +531,10 @@ function createWorld(){
             */
 
             if(
-                x>=29&&
-                x<=43&&
-                y>=18&&
-                y<=28
+                x>=38&&x<=52&&
+                y>=18&&y<=30
             ){
-                type="path";
-            }
-
-            /*
-            ESTRADA
-            */
-
-            if(y>=22&&y<=24){
-                type="path";
+                tile.type="path";
             }
 
             /*
@@ -604,12 +542,13 @@ function createWorld(){
             */
 
             if(
-                x>=45&&
-                y>=5&&
-                y<=18&&
-                Math.random()<.22
+                x>=42&&
+                x<=55&&
+                y>=3&&
+                y<=17&&
+                Math.random()<.35
             ){
-                type="tree";
+                tile.type="tree";
             }
 
             /*
@@ -617,30 +556,37 @@ function createWorld(){
             */
 
             if(
-                type==="grass"&&
-                Math.random()<.035
+                tile.type==="grass"&&
+                Math.random()<.025
             ){
-                type="rock";
+                tile.type="rock";
             }
 
-            farm[y][x]={
-                type:type,
-                crop:null,
-                watered:false
-            };
+            /*
+            FLORES
+            */
+
+            if(
+                tile.type==="grass"&&
+                Math.random()<.045
+            ){
+                tile.type="flower";
+            }
+
+            map[y][x]=tile;
         }
     }
 
     /*
-    limpa fazenda
+    fazenda limpa
     */
 
-    for(let y=18;y<=29;y++){
+    for(let y=18;y<=34;y++){
 
-        for(let x=5;x<=23;x++){
+        for(let x=6;x<=27;x++){
 
-            farm[y][x].type="soil";
-            farm[y][x].crop=null;
+            map[y][x].type="soil";
+            map[y][x].crop=null;
         }
     }
 
@@ -648,22 +594,28 @@ function createWorld(){
     casa
     */
 
-    for(let y=32;y<=37;y++){
+    for(let y=36;y<=43;y++){
 
-        for(let x=7;x<=13;x++){
+        for(let x=8;x<=17;x++){
 
-            farm[y][x].type="house";
+            map[y][x].type="house";
         }
     }
+
+    /*
+    porta
+    */
+
+    map[36][12].type="door";
 
     createNPCs();
     createAnimals();
 }
 
 
-/* =====================================================
-   NPC
-===================================================== */
+/* =========================================================
+   NPCS
+========================================================= */
 
 function createNPCs(){
 
@@ -671,46 +623,49 @@ function createNPCs(){
 
         {
             name:"Lia",
-            x:35*TILE,
-            y:20*TILE,
-            color:"#d36c92",
-            dialogue:[
-                "Oi! Bem-vindo ao Vale Verde!",
-                "A praça fica cheia de gente aos domingos.",
-                "Cuide bem das suas plantações e você vai ficar rico!"
+            x:43*TILE,
+            y:22*TILE,
+            shirt:"#c66b8b",
+            hair:"#5b3429",
+            text:[
+                "O Vale Verde é pequeno, mas sempre tem alguma coisa acontecendo.",
+                "A floresta fica linda durante o pôr do sol.",
+                "Você já viu as estrelas daqui? São incríveis."
             ]
         },
 
         {
             name:"Theo",
-            x:40*TILE,
-            y:26*TILE,
-            color:"#5c87d6",
-            dialogue:[
-                "Eu gosto de pescar perto do lago.",
-                "Quando você vê uma água brilhando, tente usar a vara!",
-                "Às vezes aparecem peixes raros."
+            x:49*TILE,
+            y:27*TILE,
+            shirt:"#587bc2",
+            hair:"#38271e",
+            text:[
+                "Tem peixes grandes naquele lago.",
+                "A melhor hora para pescar é de manhã.",
+                "Se ouvir água, provavelmente está perto do lago."
             ]
         },
 
         {
-            name:"Dona Rosa",
-            x:31*TILE,
-            y:25*TILE,
-            color:"#b875d1",
-            dialogue:[
-                "A loja fica aberta durante o dia.",
-                "Você pode comprar sementes comigo.",
-                "Volte amanhã para ver se chegaram produtos novos."
+            name:"Rosa",
+            x:39*TILE,
+            y:27*TILE,
+            shirt:"#9a67bd",
+            hair:"#57382a",
+            text:[
+                "Cuide da sua fazenda e ela vai cuidar de você.",
+                "As sementes ficam mais caras quando chega o inverno.",
+                "Você deveria plantar bastante antes de chover."
             ]
         }
     ];
 }
 
 
-/* =====================================================
+/* =========================================================
    ANIMAIS
-===================================================== */
+========================================================= */
 
 function createAnimals(){
 
@@ -718,36 +673,36 @@ function createAnimals(){
 
         {
             type:"chicken",
-            x:17*TILE,
-            y:33*TILE,
-            dx:0.3,
-            dy:0
+            x:19*TILE,
+            y:38*TILE,
+            dir:1,
+            timer:0
         },
 
         {
             type:"chicken",
-            x:20*TILE,
-            y:34*TILE,
-            dx:-0.2,
-            dy:0
+            x:23*TILE,
+            y:40*TILE,
+            dir:-1,
+            timer:50
         },
 
         {
             type:"cow",
-            x:23*TILE,
-            y:35*TILE,
-            dx:0.15,
-            dy:0
+            x:27*TILE,
+            y:39*TILE,
+            dir:1,
+            timer:100
         }
     ];
 }
 
 
-/* =====================================================
-   MOVIMENTO
-===================================================== */
+/* =========================================================
+   PLAYER
+========================================================= */
 
-function movePlayer(){
+function updatePlayer(){
 
     let dx=0;
     let dy=0;
@@ -759,7 +714,7 @@ function movePlayer(){
 
     player.walking=dx!==0||dy!==0;
 
-    if(dx!==0&&dy!==0){
+    if(dx&&dy){
 
         dx*=.707;
         dy*=.707;
@@ -772,12 +727,12 @@ function movePlayer(){
 
     if(player.walking){
 
-        player.animation+=.2;
+        player.frame+=.18;
 
-        let speed=player.speed;
+        let speed=1.35;
 
         if(energy<=0){
-            speed=.6;
+            speed=.45;
         }
 
         let nx=player.x+dx*speed;
@@ -788,40 +743,31 @@ function movePlayer(){
             player.x=nx;
             player.y=ny;
 
-            energy-=.012;
+            energy-=.008;
         }
     }
 }
 
 
-/* =====================================================
-   COLISÃO
-===================================================== */
-
 function canWalk(x,y){
 
-    const points=[
-        [x-13,y-13],
-        [x+13,y-13],
-        [x-13,y+13],
-        [x+13,y+13]
+    let points=[
+        [x-5,y-5],
+        [x+5,y-5],
+        [x-5,y+5],
+        [x+5,y+5]
     ];
 
-    for(const p of points){
+    for(let p of points){
 
-        const tx=Math.floor(p[0]/TILE);
-        const ty=Math.floor(p[1]/TILE);
+        let tx=Math.floor(p[0]/TILE);
+        let ty=Math.floor(p[1]/TILE);
 
-        if(
-            tx<0||
-            ty<0||
-            tx>=MAP_W||
-            ty>=MAP_H
-        ){
+        if(tx<0||ty<0||tx>=MAP_W||ty>=MAP_H){
             return false;
         }
 
-        const t=farm[ty][tx];
+        let t=map[ty][tx];
 
         if(
             t.type==="water"||
@@ -837,19 +783,19 @@ function canWalk(x,y){
 }
 
 
-/* =====================================================
-   TILE DA FRENTE
-===================================================== */
+/* =========================================================
+   FRONT TILE
+========================================================= */
 
-function getFrontTile(){
+function frontTile(){
 
     let x=player.x;
     let y=player.y;
 
-    if(player.direction==="up")y-=43;
-    if(player.direction==="down")y+=43;
-    if(player.direction==="left")x-=43;
-    if(player.direction==="right")x+=43;
+    if(player.direction==="up")y-=15;
+    if(player.direction==="down")y+=15;
+    if(player.direction==="left")x-=15;
+    if(player.direction==="right")x+=15;
 
     let tx=Math.floor(x/TILE);
     let ty=Math.floor(y/TILE);
@@ -863,13 +809,13 @@ function getFrontTile(){
         return null;
     }
 
-    return farm[ty][tx];
+    return map[ty][tx];
 }
 
 
-/* =====================================================
+/* =========================================================
    INTERAÇÃO
-===================================================== */
+========================================================= */
 
 function interact(){
 
@@ -877,47 +823,24 @@ function interact(){
     NPC
     */
 
-    for(let npc of npcs){
+    for(let n of npcs){
 
-        let d=Math.hypot(
-            player.x-npc.x,
-            player.y-npc.y
-        );
+        if(distance(player,n)<18){
 
-        if(d<75){
-
-            talk(npc);
-
+            talk(n);
             return;
         }
-    }
-
-    /*
-    loja
-    */
-
-    let shopDistance=Math.hypot(
-        player.x-31*TILE,
-        player.y-25*TILE
-    );
-
-    if(shopDistance<85){
-
-        openShop();
-
-        return;
     }
 
     /*
     pesca
     */
 
-    let front=getFrontTile();
+    let t=frontTile();
 
-    if(front&&front.type==="water"){
+    if(t&&t.type==="water"){
 
         fishNow();
-
         return;
     }
 
@@ -926,229 +849,184 @@ function interact(){
     */
 
     if(
-        front&&
-        front.type==="soil"&&
-        !front.crop
+        t&&
+        t.type==="soil"&&
+        !t.crop
     ){
 
         if(seeds<=0){
 
-            showToast("Você não tem sementes.");
-
+            toast("Você não tem sementes.");
             return;
         }
 
-        if(energy<5){
+        if(energy<4){
 
-            showToast("Você está cansado.");
-
+            toast("Você está cansado.");
             return;
         }
 
-        front.crop={
-            stage:1
+        t.crop={
+            stage:1,
+            growth:0
         };
 
         seeds--;
 
-        energy-=5;
+        energy-=4;
 
-        updateHUD();
+        particle(
+            player.x,
+            player.y,
+            "🌱"
+        );
 
-        showToast("Você plantou uma semente! 🌱");
+        toast("Semente plantada!");
     }
 }
 
 
-/* =====================================================
+/* =========================================================
    REGAR
-===================================================== */
+========================================================= */
 
 function waterPlant(){
 
-    let tile=getFrontTile();
+    let t=frontTile();
 
-    if(!tile||!tile.crop)return;
+    if(!t||!t.crop)return;
 
-    if(waterLevel<=0){
+    if(water<=0){
 
-        showToast("Seu regador está vazio!");
-
+        toast("O regador está vazio!");
         return;
     }
 
-    if(energy<3){
+    if(energy<2){
 
-        showToast("Você está cansado.");
-
+        toast("Você está cansado.");
         return;
     }
 
-    tile.watered=true;
+    t.watered=true;
 
-    waterLevel-=8;
-    energy-=3;
+    water-=8;
+    energy-=2;
 
-    updateHUD();
+    particle(
+        player.x,
+        player.y,
+        "💧"
+    );
 
-    showToast("Planta regada 💧");
+    toast("Plantação regada.");
 }
 
 
-/* =====================================================
+/* =========================================================
    COLHEITA
-===================================================== */
+========================================================= */
 
 function harvest(){
 
-    let tile=getFrontTile();
+    let t=frontTile();
 
-    if(!tile||!tile.crop)return;
+    if(!t||!t.crop)return;
 
-    if(tile.crop.stage>=3){
+    if(t.crop.stage<3){
 
-        tile.crop=null;
-
-        crops++;
-
-        energy-=4;
-
-        updateHUD();
-
-        showToast("Você colheu uma cenoura! 🥕");
-
-    }else{
-
-        showToast("Ainda não está pronta.");
+        toast("Ainda não está pronta.");
+        return;
     }
+
+    t.crop=null;
+
+    crops++;
+
+    energy-=3;
+
+    particle(
+        player.x,
+        player.y,
+        "🥕"
+    );
+
+    toast("Você colheu uma cenoura!");
 }
 
 
-/* =====================================================
+/* =========================================================
    PESCA
-===================================================== */
+========================================================= */
 
 function fishNow(){
 
-    if(energy<8){
+    if(energy<7){
 
-        showToast("Você está cansado demais.");
-
+        toast("Você está cansado demais.");
         return;
     }
 
-    energy-=8;
+    energy-=7;
 
-    /*
-    chance de peixe
-    */
-
-    if(Math.random()<.72){
+    if(Math.random()<.75){
 
         fish++;
 
-        let value=15+Math.floor(Math.random()*21);
-
-        showToast(
-            "Você pescou um peixe! 🐟 Valor: R$"+value
+        particle(
+            player.x,
+            player.y,
+            "🐟"
         );
+
+        toast("Você pescou um peixe!");
 
     }else{
 
-        showToast("O peixe escapou... 😭");
+        toast("O peixe escapou!");
     }
-
-    updateHUD();
 }
 
 
-/* =====================================================
+/* =========================================================
    VENDER
-===================================================== */
+========================================================= */
 
-function sellAll(){
+function sell(){
 
-    let total=0;
+    let value=
+        crops*25+
+        fish*20;
 
-    total+=crops*25;
-    total+=fish*20;
+    if(value<=0){
 
-    if(total<=0){
-
-        showToast("Você não tem nada para vender.");
-
+        toast("Você não tem nada para vender.");
         return;
     }
+
+    money+=value;
 
     crops=0;
     fish=0;
 
-    money+=total;
-
-    updateHUD();
-
-    showToast("Você ganhou R$"+total+" 💰");
+    toast("Você vendeu tudo por R$ "+value+"!");
 }
 
 
-/* =====================================================
-   LOJA
-===================================================== */
+/* =========================================================
+   NPC
+========================================================= */
 
-function openShop(){
-
-    document.getElementById("shop").style.display="flex";
-}
-
-function closeShop(){
-
-    document.getElementById("shop").style.display="none";
-}
-
-function buySeeds(){
-
-    if(money<25){
-
-        showToast("Dinheiro insuficiente.");
-
-        return;
-    }
-
-    money-=25;
-    seeds+=5;
-
-    updateHUD();
-
-    showToast("Você comprou 5 sementes 🌱");
-}
-
-function fillWater(){
-
-    waterLevel=100;
-
-    updateHUD();
-
-    showToast("Regador cheio! 💧");
-}
-
-
-/* =====================================================
-   NPC DIÁLOGO
-===================================================== */
-
-function talk(npc){
+function talk(n){
 
     document.getElementById("dialog").style.display="block";
 
-    document.getElementById("dialogName").textContent=
-        npc.name;
+    document.getElementById("dialogName").textContent=n.name;
 
-    let text=
-        npc.dialogue[
-            Math.floor(Math.random()*npc.dialogue.length)
+    document.getElementById("dialogText").textContent=
+        n.text[
+            Math.floor(Math.random()*n.text.length)
         ];
-
-    document.getElementById("dialogText").textContent=text;
 }
 
 function closeDialog(){
@@ -1157,15 +1035,17 @@ function closeDialog(){
 }
 
 
-/* =====================================================
+/* =========================================================
    TEMPO
-===================================================== */
+========================================================= */
+
+let lastSecond=Date.now();
 
 function updateTime(){
 
-    let now=Date.now();
+    if(Date.now()-lastSecond<1000)return;
 
-    if(now-lastTime<1000)return;
+    lastSecond=Date.now();
 
     minute+=10;
 
@@ -1175,33 +1055,12 @@ function updateTime(){
         hour++;
     }
 
-    /*
-    energia natural
-    */
-
-    if(hour>=7&&hour<22){
-
-        energy-=.025;
-    }
-
-    /*
-    fim do dia
-    */
-
     if(hour>=22){
 
         nextDay();
     }
-
-    lastTime=now;
-
-    updateHUD();
 }
 
-
-/* =====================================================
-   NOVO DIA
-===================================================== */
 
 function nextDay(){
 
@@ -1211,59 +1070,49 @@ function nextDay(){
     minute=0;
 
     energy=100;
-    waterLevel=100;
+    water=100;
 
     /*
-    clima aleatório
+    clima
     */
 
-    let r=Math.random();
-
-    if(r<.2){
-        weather="rain";
-    }else{
-        weather="sun";
-    }
+    weather=
+        Math.random()<.22
+        ?"rain"
+        :"sun";
 
     /*
-    plantas
+    crescimento
     */
 
     for(let y=0;y<MAP_H;y++){
 
         for(let x=0;x<MAP_W;x++){
 
-            let tile=farm[y][x];
+            let t=map[y][x];
 
-            if(tile.crop){
+            if(!t.crop)continue;
 
-                if(tile.watered){
+            if(t.watered){
 
-                    tile.crop.stage++;
+                t.crop.growth++;
 
-                    if(tile.crop.stage>3){
-                        tile.crop.stage=3;
-                    }
+                if(t.crop.growth>=1){
+
+                    t.crop.stage++;
+
+                    t.crop.growth=0;
                 }
 
-                tile.watered=false;
+                if(t.crop.stage>3){
+                    t.crop.stage=3;
+                }
             }
-        }
-    }
 
-    /*
-    chuva rega automaticamente
-    */
+            t.watered=false;
 
-    if(weather==="rain"){
-
-        for(let y=0;y<MAP_H;y++){
-
-            for(let x=0;x<MAP_W;x++){
-
-                if(farm[y][x].crop){
-                    farm[y][x].watered=true;
-                }
+            if(weather==="rain"){
+                t.watered=true;
             }
         }
     }
@@ -1272,385 +1121,383 @@ function nextDay(){
 
     saveGame();
 
-    showToast(
+    toast(
         weather==="rain"
-        ? "Dia "+day+" — está chovendo! 🌧️"
-        : "Dia "+day+" — o sol nasceu! ☀️"
+        ? "Dia "+day+" — Chuva no Vale! 🌧️"
+        : "Dia "+day+" — Um novo dia começou! ☀️"
     );
 }
 
 
-/* =====================================================
-   CÂMERA
-===================================================== */
+/* =========================================================
+   CAMERA
+========================================================= */
 
 function updateCamera(){
 
-    let targetX=
-        player.x-canvas.width/2;
+    camera.x=
+        player.x-
+        VIEW_W/2;
 
-    let targetY=
-        player.y-canvas.height/2;
-
-    let maxX=
-        MAP_W*TILE-canvas.width;
-
-    let maxY=
-        MAP_H*TILE-canvas.height;
+    camera.y=
+        player.y-
+        VIEW_H/2;
 
     camera.x=Math.max(
         0,
-        Math.min(maxX,targetX)
+        Math.min(
+            MAP_W*TILE-VIEW_W,
+            camera.x
+        )
     );
 
     camera.y=Math.max(
         0,
-        Math.min(maxY,targetY)
+        Math.min(
+            MAP_H*TILE-VIEW_H,
+            camera.y
+        )
     );
 }
 
 
-/* =====================================================
-   DESENHAR MUNDO
-===================================================== */
+/* =========================================================
+   PIXEL DRAW ENGINE
+========================================================= */
 
-function drawWorld(){
+function rect(x,y,w,h,c){
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
+    ctx.fillStyle=c;
+    ctx.fillRect(
+        Math.floor(x),
+        Math.floor(y),
+        Math.ceil(w),
+        Math.ceil(h)
     );
-
-    updateCamera();
-
-    ctx.save();
-
-    ctx.translate(
-        -camera.x,
-        -camera.y
-    );
-
-    for(let y=0;y<MAP_H;y++){
-
-        for(let x=0;x<MAP_W;x++){
-
-            drawTile(
-                farm[y][x],
-                x*TILE,
-                y*TILE
-            );
-        }
-    }
-
-    /*
-    animais
-    */
-
-    for(let animal of animals){
-
-        drawAnimal(animal);
-    }
-
-    /*
-    NPC
-    */
-
-    for(let npc of npcs){
-
-        drawNPC(npc);
-    }
-
-    /*
-    jogador
-    */
-
-    drawPlayer();
-
-    ctx.restore();
-
-    /*
-    chuva
-    */
-
-    if(weather==="rain"){
-
-        drawRain();
-    }
-
-    drawNight();
 }
 
 
-/* =====================================================
-   TILE
-===================================================== */
+function drawGrass(x,y,v){
 
-function drawTile(tile,x,y){
-
-    if(tile.type==="grass"){
-
-        ctx.fillStyle="#69a94d";
-
-        ctx.fillRect(x,y,TILE,TILE);
-
-        ctx.fillStyle="#5d9843";
-
-        for(let i=0;i<3;i++){
-
-            ctx.fillRect(
-                x+7+i*14,
-                y+10+(i*9)%25,
-                3,
-                3
-            );
-        }
-    }
-
-    if(tile.type==="soil"){
-
-        ctx.fillStyle="#8a5a38";
-
-        ctx.fillRect(x,y,TILE,TILE);
-
-        ctx.strokeStyle="#69452c";
-
-        for(let i=7;i<TILE;i+=12){
-
-            ctx.beginPath();
-
-            ctx.moveTo(x+i,y);
-            ctx.lineTo(x+i,y+TILE);
-
-            ctx.stroke();
-        }
-    }
-
-    if(tile.type==="path"){
-
-        ctx.fillStyle="#c29a61";
-
-        ctx.fillRect(x,y,TILE,TILE);
-
-        ctx.fillStyle="#b18753";
-
-        ctx.fillRect(x+9,y+10,4,4);
-        ctx.fillRect(x+31,y+28,4,4);
-    }
-
-    if(tile.type==="water"){
-
-        ctx.fillStyle="#4c9fd1";
-
-        ctx.fillRect(x,y,TILE,TILE);
-
-        ctx.strokeStyle="#83d2ed";
-
-        ctx.beginPath();
-
-        ctx.moveTo(x+4,y+17);
-        ctx.lineTo(x+20,y+17);
-        ctx.lineTo(x+29,y+13);
-        ctx.lineTo(x+43,y+13);
-
-        ctx.stroke();
-    }
-
-    if(tile.type==="house"){
-
-        ctx.fillStyle="#d8b67a";
-
-        ctx.fillRect(x,y,TILE,TILE);
-
-        ctx.fillStyle="#91483b";
-
-        ctx.fillRect(x,y,TILE,14);
-
-        ctx.fillStyle="#70bcd8";
-
-        ctx.fillRect(x+12,y+18,24,17);
-    }
-
-    if(tile.type==="tree"){
-
-        ctx.fillStyle="#71452c";
-
-        ctx.fillRect(
-            x+19,
-            y+23,
-            10,
-            25
-        );
-
-        ctx.fillStyle="#34743a";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x+24,
-            y+20,
-            22,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-        ctx.fillStyle="#4b9146";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x+11,
-            y+14,
-            13,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x+37,
-            y+15,
-            12,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-    }
-
-    if(tile.type==="rock"){
-
-        ctx.fillStyle="#777";
-
-        ctx.beginPath();
-
-        ctx.moveTo(x+10,y+36);
-        ctx.lineTo(x+17,y+18);
-        ctx.lineTo(x+31,y+13);
-        ctx.lineTo(x+40,y+29);
-        ctx.lineTo(x+32,y+40);
-        ctx.closePath();
-
-        ctx.fill();
-    }
+    rect(x,y,TILE,TILE,
+        v%2
+        ? "#6ba84e"
+        : "#68a34b"
+    );
 
     /*
-    planta
+    pixels de grama
     */
 
-    if(tile.crop){
+    if(v===0){
 
-        let cx=x+24;
-        let cy=y+25;
+        rect(x+2,y+12,2,2,"#4f893f");
+        rect(x+10,y+5,2,2,"#78b65a");
+        rect(x+14,y+10,1,2,"#4f893f");
 
-        if(tile.crop.stage===1){
+    }else if(v===1){
 
-            ctx.fillStyle="#3f8c35";
+        rect(x+4,y+3,2,2,"#79b75a");
+        rect(x+12,y+12,2,2,"#4c873c");
 
-            ctx.fillRect(
-                cx-3,
-                cy-7,
-                6,
-                13
-            );
-        }
+    }else{
 
-        if(tile.crop.stage===2){
-
-            ctx.fillStyle="#3e963b";
-
-            ctx.beginPath();
-
-            ctx.arc(
-                cx,
-                cy,
-                12,
-                0,
-                Math.PI*2
-            );
-
-            ctx.fill();
-        }
-
-        if(tile.crop.stage>=3){
-
-            ctx.fillStyle="#e99b30";
-
-            ctx.beginPath();
-
-            ctx.arc(
-                cx,
-                cy,
-                13,
-                0,
-                Math.PI*2
-            );
-
-            ctx.fill();
-
-            ctx.fillStyle="#4d9b3e";
-
-            ctx.fillRect(
-                cx-3,
-                cy-19,
-                6,
-                9
-            );
-        }
-
-        if(tile.watered){
-
-            ctx.fillStyle="#72cfff";
-
-            ctx.beginPath();
-
-            ctx.arc(
-                x+8,
-                y+8,
-                3,
-                0,
-                Math.PI*2
-            );
-
-            ctx.fill();
-        }
+        rect(x+7,y+8,2,2,"#508e40");
+        rect(x+2,y+5,1,2,"#80b95f");
     }
 }
 
 
-/* =====================================================
-   PERSONAGEM
-===================================================== */
+function drawSoil(x,y){
+
+    rect(x,y,TILE,TILE,"#95633e");
+
+    rect(x,y+4,TILE,1,"#7b4e34");
+    rect(x,y+11,TILE,1,"#7b4e34");
+
+    rect(x+3,y+7,2,1,"#ad754b");
+    rect(x+12,y+14,2,1,"#ad754b");
+}
+
+
+function drawPath(x,y){
+
+    rect(x,y,TILE,TILE,"#c19a61");
+
+    rect(x+2,y+3,3,2,"#ad834e");
+    rect(x+11,y+10,3,2,"#b88e55");
+    rect(x+6,y+13,2,1,"#d2ac72");
+}
+
+
+function drawWater(x,y){
+
+    rect(x,y,TILE,TILE,"#4d9bc6");
+
+    let wave=(tick/15+x+y)%16;
+
+    rect(
+        x+2,
+        y+5+Math.sin(wave)*1,
+        6,
+        1,
+        "#79c6dd"
+    );
+
+    rect(
+        x+10,
+        y+10+Math.sin(wave+2)*1,
+        5,
+        1,
+        "#79c6dd"
+    );
+
+    rect(x+6,y+13,3,1,"#3d83b0");
+}
+
+
+function drawTree(x,y){
+
+    /*
+    sombra
+    */
+
+    rect(
+        x+2,
+        y+13,
+        13,
+        3,
+        "rgba(40,50,30,.3)"
+    );
+
+    /*
+    tronco
+    */
+
+    rect(x+6,y+9,5,7,"#71472e");
+    rect(x+8,y+9,2,7,"#8c5a38");
+
+    /*
+    copa
+    */
+
+    rect(x+3,y+3,10,9,"#316d3b");
+    rect(x+1,y+6,14,6,"#316d3b");
+
+    rect(x+4,y+1,8,7,"#3c7d42");
+    rect(x+2,y+5,5,4,"#4b9149");
+
+    /*
+    luz
+    */
+
+    rect(x+5,y+3,3,2,"#5ca04e");
+    rect(x+10,y+6,3,2,"#3b7f40");
+}
+
+
+function drawRock(x,y){
+
+    rect(x+3,y+8,10,6,"#777875");
+    rect(x+5,y+5,6,5,"#8c8e89");
+    rect(x+7,y+4,3,2,"#a3a39b");
+    rect(x+2,y+13,12,2,"#5d5f5c");
+}
+
+
+function drawFlower(x,y){
+
+    let c=
+        ((x+y)/TILE)%2
+        ?"#e9a7ba"
+        :"#e7d27b";
+
+    rect(x+7,y+8,2,6,"#4e873d");
+
+    rect(x+5,y+6,3,3,c);
+    rect(x+9,y+6,3,3,c);
+    rect(x+7,y+4,3,3,c);
+    rect(x+7,y+7,2,2,"#d4a044");
+}
+
+
+function drawHouse(x,y){
+
+    /*
+    paredes
+    */
+
+    rect(x,y,TILE,TILE,"#d4ad73");
+
+    /*
+    telhado
+    */
+
+    rect(x,y,16,5,"#8c4938");
+
+    rect(x+2,y+2,12,2,"#aa5841");
+
+    /*
+    janela
+    */
+
+    rect(x+4,y+7,7,5,"#5a9bb0");
+    rect(x+7,y+7,1,5,"#e5c681");
+    rect(x+4,y+9,7,1,"#e5c681");
+
+}
+
+
+function drawDoor(x,y){
+
+    rect(x,y,TILE,TILE,"#9b6b42");
+    rect(x+4,y+3,8,13,"#70472e");
+    rect(x+10,y+9,1,1,"#e0bd61");
+}
+
+
+/* =========================================================
+   CROP
+========================================================= */
+
+function drawCrop(t,x,y){
+
+    let stage=t.crop.stage;
+
+    if(stage===1){
+
+        rect(x+7,y+9,2,5,"#3f873c");
+
+        rect(x+4,y+7,4,3,"#54a64b");
+        rect(x+8,y+5,4,3,"#54a64b");
+
+    }else if(stage===2){
+
+        rect(x+7,y+6,2,9,"#438e3b");
+
+        rect(x+3,y+7,5,5,"#4e9f43");
+        rect(x+8,y+4,5,5,"#59a94c");
+
+    }else{
+
+        /*
+        cenoura
+        */
+
+        rect(x+6,y+9,5,6,"#e89534");
+
+        rect(x+5,y+11,7,3,"#e89534");
+
+        rect(x+7,y+5,3,5,"#4e9a3e");
+        rect(x+4,y+6,3,3,"#5aaa49");
+        rect(x+10,y+5,3,3,"#5aaa49");
+    }
+
+    if(t.watered){
+
+        rect(x+1,y+1,2,2,"#83d4ef");
+    }
+}
+
+
+/* =========================================================
+   NPC SPRITE
+========================================================= */
+
+function drawNPC(n){
+
+    let x=n.x-camera.x;
+    let y=n.y-camera.y;
+
+    /*
+    sombra
+    */
+
+    rect(x-6,y+6,12,3,"rgba(20,30,20,.35)");
+
+    /*
+    pernas
+    */
+
+    rect(x-4,y+2,3,6,"#47392f");
+    rect(x+1,y+2,3,6,"#47392f");
+
+    /*
+    corpo
+    */
+
+    rect(x-6,y-8,12,11,n.shirt);
+
+    /*
+    braços
+    */
+
+    rect(x-8,y-6,2,7,"#d89d72");
+    rect(x+6,y-6,2,7,"#d89d72");
+
+    /*
+    cabeça
+    */
+
+    rect(x-5,y-16,10,9,"#dda276");
+
+    /*
+    cabelo
+    */
+
+    rect(x-6,y-18,12,5,n.hair);
+    rect(x-6,y-16,2,5,n.hair);
+
+    /*
+    olhos
+    */
+
+    rect(x-3,y-12,1,1,"#222");
+    rect(x+2,y-12,1,1,"#222");
+
+    /*
+    nome
+    */
+
+    ctx.font="5px Arial";
+    ctx.textAlign="center";
+    ctx.fillStyle="#fff";
+
+    ctx.fillText(
+        n.name,
+        x,
+        y-21
+    );
+}
+
+
+/* =========================================================
+   PLAYER SPRITE
+========================================================= */
 
 function drawPlayer(){
 
-    let x=player.x;
-    let y=player.y;
+    let x=player.x-camera.x;
+    let y=player.y-camera.y;
 
     let walk=
         player.walking
-        ? Math.sin(player.animation)*4
+        ? Math.sin(player.frame)*1.7
         : 0;
 
     /*
     sombra
     */
 
-    ctx.fillStyle="rgba(0,0,0,.25)";
+    ctx.fillStyle="rgba(20,30,20,.4)";
 
     ctx.beginPath();
 
     ctx.ellipse(
         x,
-        y+24,
-        15,
-        6,
+        y+7,
+        7,
+        2.5,
         0,
         0,
         Math.PI*2
@@ -1662,532 +1509,528 @@ function drawPlayer(){
     pernas
     */
 
-    ctx.fillStyle="#263a70";
-
-    ctx.fillRect(
-        x-9+walk,
-        y+9,
+    rect(
+        x-4+walk,
+        y+1,
+        3,
         7,
-        15
+        "#354c76"
     );
 
-    ctx.fillRect(
-        x+2-walk,
-        y+9,
+    rect(
+        x+1-walk,
+        y+1,
+        3,
         7,
-        15
+        "#354c76"
     );
 
     /*
     sapatos
     */
 
-    ctx.fillStyle="#38271f";
-
-    ctx.fillRect(
-        x-11+walk,
-        y+21,
-        9,
-        5
-    );
-
-    ctx.fillRect(
-        x+2-walk,
-        y+21,
-        9,
-        5
-    );
+    rect(x-5+walk,y+7,4,2,"#382a22");
+    rect(x+1-walk,y+7,4,2,"#382a22");
 
     /*
     corpo
     */
 
-    ctx.fillStyle="#4c7dcc";
-
-    ctx.fillRect(
-        x-14,
-        y-12,
-        28,
-        24
+    rect(
+        x-6,
+        y-9,
+        12,
+        11,
+        "#4678b9"
     );
 
     /*
     braços
     */
 
-    ctx.fillStyle="#f0b47f";
-
-    ctx.fillRect(
-        x-19,
-        y-8+walk,
-        6,
-        16
+    rect(
+        x-8,
+        y-7+walk,
+        2,
+        7,
+        "#e0a377"
     );
 
-    ctx.fillRect(
-        x+13,
-        y-8-walk,
-        6,
-        16
+    rect(
+        x+6,
+        y-7-walk,
+        2,
+        7,
+        "#e0a377"
     );
 
     /*
     cabeça
     */
 
-    ctx.fillStyle="#f2b681";
-
-    ctx.fillRect(
-        x-11,
-        y-31,
-        22,
-        22
+    rect(
+        x-5,
+        y-17,
+        10,
+        9,
+        "#e1a276"
     );
 
     /*
     cabelo
     */
 
-    ctx.fillStyle="#482b20";
-
-    ctx.fillRect(
-        x-12,
-        y-34,
-        24,
-        9
+    rect(
+        x-6,
+        y-19,
+        12,
+        5,
+        "#442b22"
     );
 
-    ctx.fillRect(
-        x-12,
-        y-29,
+    rect(
+        x-6,
+        y-17,
+        2,
         5,
-        8
+        "#442b22"
     );
 
-    ctx.fillRect(
-        x+7,
-        y-29,
-        5,
-        7
+    rect(
+        x+4,
+        y-17,
+        2,
+        4,
+        "#442b22"
     );
 
     /*
-    olhos
+    rosto
     */
 
     if(player.direction!=="up"){
 
-        ctx.fillStyle="#222";
+        rect(x-3,y-13,1,1,"#222");
+        rect(x+2,y-13,1,1,"#222");
 
-        ctx.fillRect(
-            x-7,
-            y-21,
-            3,
-            3
-        );
-
-        ctx.fillRect(
-            x+4,
-            y-21,
-            3,
-            3
-        );
-    }
-
-    /*
-    sorriso
-    */
-
-    if(player.direction!=="up"){
-
-        ctx.fillRect(
-            x-3,
-            y-14,
-            7,
-            2
-        );
+        rect(x-1,y-10,3,1,"#7e443b");
     }
 
     /*
     mochila
     */
 
-    ctx.fillStyle="#995d36";
-
-    ctx.fillRect(
-        x-18,
-        y-9,
-        5,
-        16
+    rect(
+        x-8,
+        y-6,
+        2,
+        7,
+        "#865635"
     );
 }
 
 
-/* =====================================================
-   NPC
-===================================================== */
+/* =========================================================
+   ANIMAL
+========================================================= */
 
-function drawNPC(npc){
+function drawAnimal(a){
 
-    let x=npc.x;
-    let y=npc.y;
+    a.timer++;
 
-    ctx.fillStyle="rgba(0,0,0,.25)";
+    if(a.timer%180===0){
+        a.dir=Math.random()<.5?-1:1;
+    }
 
-    ctx.beginPath();
+    let x=a.x-camera.x;
+    let y=a.y-camera.y;
 
-    ctx.ellipse(
-        x,
-        y+23,
-        14,
-        5,
-        0,
-        0,
-        Math.PI*2
-    );
+    if(a.dir){
+        a.x+=a.dir*.015;
+    }
 
-    ctx.fill();
+    if(a.type==="chicken"){
 
-    ctx.fillStyle=npc.color;
+        rect(x-6,y+4,12,3,"rgba(20,20,20,.3)");
 
-    ctx.fillRect(
-        x-13,
-        y-10,
-        26,
-        27
-    );
+        rect(x-5,y-2,9,7,"#f3eedc");
 
-    ctx.fillStyle="#efb27e";
+        rect(x+2,y-4,5,5,"#f3eedc");
 
-    ctx.fillRect(
-        x-11,
-        y-30,
-        22,
-        22
-    );
+        rect(x+6,y-2,3,2,"#df9a38");
 
-    ctx.fillStyle="#39251b";
+        rect(x+4,y-5,2,2,"#d44e45");
 
-    ctx.fillRect(
-        x-12,
-        y-33,
-        24,
-        9
-    );
+        rect(x+3,y-2,1,1,"#222");
+    }
 
-    ctx.fillStyle="#222";
+    if(a.type==="cow"){
 
-    ctx.fillRect(
-        x-7,
-        y-20,
-        3,
-        3
-    );
+        rect(x-9,y+5,18,3,"rgba(20,20,20,.3)");
 
-    ctx.fillRect(
-        x+4,
-        y-20,
-        3,
-        3
-    );
+        rect(x-9,y-5,18,10,"#eee9d9");
 
-    ctx.font="bold 13px Arial";
-    ctx.textAlign="center";
-    ctx.fillStyle="white";
+        rect(x+7,y-4,6,6,"#eee9d9");
 
-    ctx.fillText(
-        npc.name,
-        x,
-        y-43
-    );
+        rect(x-5,y-3,5,4,"#604c42");
+        rect(x+3,y+1,4,3,"#604c42");
+
+        rect(x+11,y-2,3,2,"#6b5145");
+
+        rect(x+8,y-6,2,2,"#54423a");
+    }
 }
 
 
-/* =====================================================
-   ANIMAIS
-===================================================== */
+/* =========================================================
+   WORLD RENDER
+========================================================= */
 
-function drawAnimal(animal){
+function drawWorld(){
 
-    let x=animal.x;
-    let y=animal.y;
+    ctx.clearRect(
+        0,
+        0,
+        VIEW_W,
+        VIEW_H
+    );
 
-    /*
-    movimento simples
-    */
+    updateCamera();
 
-    animal.x+=animal.dx*.15;
-    animal.y+=animal.dy*.15;
+    let startX=Math.floor(camera.x/TILE)-1;
+    let startY=Math.floor(camera.y/TILE)-1;
 
-    if(
-        animal.x<15*TILE||
-        animal.x>25*TILE
-    ){
-        animal.dx*=-1;
+    let endX=
+        Math.ceil((camera.x+VIEW_W)/TILE)+1;
+
+    let endY=
+        Math.ceil((camera.y+VIEW_H)/TILE)+1;
+
+    for(let y=startY;y<endY;y++){
+
+        for(let x=startX;x<endX;x++){
+
+            if(
+                x<0||
+                y<0||
+                x>=MAP_W||
+                y>=MAP_H
+            )continue;
+
+            let t=map[y][x];
+
+            let sx=x*TILE-camera.x;
+            let sy=y*TILE-camera.y;
+
+            if(t.type==="grass"){
+                drawGrass(sx,sy,t.variant);
+            }
+
+            if(t.type==="soil"){
+                drawSoil(sx,sy);
+            }
+
+            if(t.type==="path"){
+                drawPath(sx,sy);
+            }
+
+            if(t.type==="water"){
+                drawWater(sx,sy);
+            }
+
+            if(t.type==="tree"){
+                drawGrass(sx,sy,t.variant);
+                drawTree(sx,sy);
+            }
+
+            if(t.type==="rock"){
+                drawGrass(sx,sy,t.variant);
+                drawRock(sx,sy);
+            }
+
+            if(t.type==="flower"){
+                drawGrass(sx,sy,t.variant);
+                drawFlower(sx,sy);
+            }
+
+            if(t.type==="house"){
+                drawHouse(sx,sy);
+            }
+
+            if(t.type==="door"){
+                drawHouse(sx,sy);
+                drawDoor(sx,sy);
+            }
+
+            if(t.crop){
+                drawCrop(t,sx,sy);
+            }
+        }
     }
 
     /*
-    sombra
+    NPCs
     */
 
-    ctx.fillStyle="rgba(0,0,0,.25)";
+    for(let n of npcs){
 
-    ctx.beginPath();
+        if(
+            n.x>camera.x-20&&
+            n.x<camera.x+VIEW_W+20&&
+            n.y>camera.y-30&&
+            n.y<camera.y+VIEW_H+30
+        ){
 
-    ctx.ellipse(
-        x,
-        y+12,
-        13,
-        5,
-        0,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    if(animal.type==="chicken"){
-
-        ctx.fillStyle="#f5f0dc";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x,
-            y,
-            12,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-        ctx.fillStyle="#d94a43";
-
-        ctx.fillRect(
-            x+7,
-            y-8,
-            5,
-            7
-        );
-
-        ctx.fillStyle="#d59a32";
-
-        ctx.fillRect(
-            x+10,
-            y-2,
-            7,
-            4
-        );
+            drawNPC(n);
+        }
     }
 
-    if(animal.type==="cow"){
+    /*
+    animais
+    */
 
-        ctx.fillStyle="#eee8d8";
-
-        ctx.beginPath();
-
-        ctx.ellipse(
-            x,
-            y,
-            19,
-            13,
-            0,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-        ctx.fillStyle="#604a3d";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x-7,
-            y-3,
-            5,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-        ctx.beginPath();
-
-        ctx.arc(
-            x+9,
-            y+5,
-            5,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
+    for(let a of animals){
+        drawAnimal(a);
     }
+
+    /*
+    player
+    */
+
+    drawPlayer();
+
+    /*
+    partículas
+    */
+
+    drawParticles();
+
+    /*
+    clima
+    */
+
+    if(weather==="rain"){
+        drawRain();
+    }
+
+    /*
+    iluminação
+    */
+
+    drawLighting();
 }
 
 
-/* =====================================================
-   CHUVA
-===================================================== */
+/* =========================================================
+   ILUMINAÇÃO
+========================================================= */
 
-function drawRain(){
+function drawLighting(){
 
-    ctx.strokeStyle="rgba(160,210,255,.55)";
-
-    for(let i=0;i<130;i++){
-
-        let x=Math.random()*canvas.width;
-        let y=Math.random()*canvas.height;
-
-        ctx.beginPath();
-
-        ctx.moveTo(x,y);
-        ctx.lineTo(x-3,y+13);
-
-        ctx.stroke();
-    }
-}
-
-
-/* =====================================================
-   NOITE
-===================================================== */
-
-function drawNight(){
-
-    let darkness=0;
+    let alpha=0;
 
     if(hour>=18){
 
-        darkness=Math.min(
-            .62,
-            (hour-18)/4*.62
-        );
+        alpha=
+            Math.min(
+                .48,
+                (hour-18)*.12
+            );
     }
 
     if(hour<6){
-        darkness=.55;
+        alpha=.42;
     }
 
-    if(darkness<=0)return;
+    if(alpha>0){
 
-    ctx.fillStyle=
-        "rgba(10,17,43,"+darkness+")";
+        rect(
+            0,
+            0,
+            VIEW_W,
+            VIEW_H,
+            "rgba(12,19,45,"+alpha+")"
+        );
 
-    ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+        /*
+        lua
+        */
+
+        ctx.fillStyle="#eee8bd";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            430,
+            35,
+            10,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        /*
+        estrelas
+        */
+
+        ctx.fillStyle="#fff";
+
+        for(let i=0;i<25;i++){
+
+            let x=(i*73)%VIEW_W;
+            let y=(i*31)%120;
+
+            rect(x,y,1,1,"#fff");
+        }
+    }
 
     /*
-    lua
+    pôr do sol
     */
 
-    ctx.fillStyle="rgba(255,255,215,.9)";
+    if(hour>=17&&hour<19){
 
-    ctx.beginPath();
+        let a=(hour-17)*.08;
 
-    ctx.arc(
-        canvas.width-95,
-        90,
-        27,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    /*
-    estrelas
-    */
-
-    ctx.fillStyle="white";
-
-    for(let i=0;i<35;i++){
-
-        let x=(i*97)%canvas.width;
-        let y=(i*53)%250;
-
-        ctx.fillRect(
-            x,
-            y,
-            2,
-            2
+        rect(
+            0,
+            0,
+            VIEW_W,
+            VIEW_H,
+            "rgba(235,130,75,"+a+")"
         );
     }
 }
 
 
-/* =====================================================
-   INVENTÁRIO
-===================================================== */
+/* =========================================================
+   CHUVA
+========================================================= */
 
-function selectSlot(index){
+function drawRain(){
 
-    selectedSlot=index;
+    for(let i=0;i<60;i++){
 
-    for(let i=0;i<6;i++){
+        let x=(i*37+tick*2)%VIEW_W;
+        let y=(i*71+tick*3)%VIEW_H;
 
-        document
-        .getElementById("slot"+i)
-        .classList.remove("selected");
+        rect(
+            x,
+            y,
+            1,
+            5,
+            "rgba(170,215,240,.65)"
+        );
     }
-
-    document
-    .getElementById("slot"+index)
-    .classList.add("selected");
 }
 
 
-/* =====================================================
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+function particle(x,y,text){
+
+    particles.push({
+        x,
+        y,
+        text,
+        life:50
+    });
+}
+
+
+function drawParticles(){
+
+    for(let p of particles){
+
+        p.y-=.25;
+        p.life--;
+
+        ctx.font="8px Arial";
+        ctx.textAlign="center";
+
+        ctx.fillStyle="white";
+
+        ctx.fillText(
+            p.text,
+            p.x-camera.x,
+            p.y-camera.y
+        );
+    }
+
+    particles=
+        particles.filter(p=>p.life>0);
+}
+
+
+/* =========================================================
    HUD
-===================================================== */
+========================================================= */
 
 function updateHUD(){
 
     document.getElementById("day").textContent=day;
 
-    let h=String(hour).padStart(2,"0");
-    let m=String(minute).padStart(2,"0");
-
-    document.getElementById("clock").textContent=
-        h+":"+m;
+    document.getElementById("time").textContent=
+        String(hour).padStart(2,"0")+
+        ":"+
+        String(minute).padStart(2,"0");
 
     document.getElementById("money").textContent=money;
 
-    document.getElementById("seeds").textContent=seeds;
-
-    document.getElementById("crops").textContent=crops;
-
-    document.getElementById("fish").textContent=fish;
-
-    document.getElementById("invSeeds").textContent=seeds;
-
-    document.getElementById("invCrops").textContent=crops;
-
-    document.getElementById("invFish").textContent=fish;
+    document.getElementById("seedText").textContent=seeds;
+    document.getElementById("cropText").textContent=crops;
+    document.getElementById("fishText").textContent=fish;
 
     document.getElementById("energy").style.width=
         Math.max(0,energy)+"%";
 
     document.getElementById("water").style.width=
-        Math.max(0,waterLevel)+"%";
+        Math.max(0,water)+"%";
+
+    document.getElementById("weather").textContent=
+        weather==="rain"
+        ?"Chuva"
+        :"Ensolarado";
+
+    document.getElementById("s0").textContent=seeds;
+    document.getElementById("s1").textContent=crops;
+    document.getElementById("s5").textContent=fish;
 }
 
 
-/* =====================================================
-   SALVAR
-===================================================== */
+/* =========================================================
+   INVENTÁRIO
+========================================================= */
+
+function selectSlot(i){
+
+    selected=i;
+
+    for(let n=0;n<6;n++){
+
+        document
+        .getElementById("slot"+n)
+        .classList.remove("selected");
+    }
+
+    document
+    .getElementById("slot"+i)
+    .classList.add("selected");
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
 
 function saveGame(){
 
-    if(!gameStarted)return;
+    if(!game)return;
 
-    let data={
+    const data={
 
         day,
         hour,
@@ -2200,7 +2043,7 @@ function saveGame(){
         fish,
 
         energy,
-        waterLevel,
+        water,
 
         weather,
 
@@ -2210,139 +2053,178 @@ function saveGame(){
             direction:player.direction
         },
 
-        farm,
+        map,
         npcs,
         animals
     };
 
     localStorage.setItem(
-        "valeVerdeV3",
+        "vale_verde_save_v3",
         JSON.stringify(data)
     );
 
-    showToast("Jogo salvo! 💾");
+    toast("💾 Jogo salvo!");
 }
 
-
-/* =====================================================
-   CARREGAR
-===================================================== */
 
 function loadGame(){
 
-    let saved=
-        localStorage.getItem("valeVerdeV3");
+    let raw=
+        localStorage.getItem(
+            "vale_verde_save_v3"
+        );
 
-    if(!saved){
+    if(!raw){
 
-        showToast("Nenhum jogo salvo.");
-
+        toast("Nenhum jogo salvo.");
         return;
     }
 
-    let data=
-        JSON.parse(saved);
+    let d=JSON.parse(raw);
 
-    day=data.day;
-    hour=data.hour;
-    minute=data.minute;
+    day=d.day;
+    hour=d.hour;
+    minute=d.minute;
 
-    money=data.money;
+    money=d.money;
 
-    seeds=data.seeds;
-    crops=data.crops;
-    fish=data.fish||0;
+    seeds=d.seeds;
+    crops=d.crops;
+    fish=d.fish;
 
-    energy=data.energy;
-    waterLevel=data.waterLevel||100;
+    energy=d.energy;
+    water=d.water;
 
-    weather=data.weather||"sun";
+    weather=d.weather;
 
-    player.x=data.player.x;
-    player.y=data.player.y;
-    player.direction=data.player.direction;
+    player.x=d.player.x;
+    player.y=d.player.y;
+    player.direction=d.player.direction;
 
-    farm=data.farm;
-
-    npcs=data.npcs;
-
-    animals=data.animals||[];
+    map=d.map;
+    npcs=d.npcs;
+    animals=d.animals;
 
     document.getElementById("menu").style.display="none";
 
-    gameStarted=true;
+    game=true;
 
     updateHUD();
 
-    showToast("Jogo carregado! 🌿");
+    toast("🌿 Jogo carregado!");
 }
 
 
-/* =====================================================
+/* =========================================================
+   START
+========================================================= */
+
+function startNew(){
+
+    document.getElementById("menu").style.display="none";
+
+    day=1;
+    hour=6;
+    minute=0;
+
+    money=100;
+
+    seeds=5;
+    crops=0;
+    fish=0;
+
+    energy=100;
+    water=100;
+
+    weather="sun";
+
+    player.x=14*TILE;
+    player.y=27*TILE;
+
+    createWorld();
+
+    game=true;
+
+    updateHUD();
+
+    toast("🌱 Bem-vindo ao Vale Verde!");
+}
+
+
+/* =========================================================
    TOAST
-===================================================== */
+========================================================= */
 
 let toastTimer;
 
-function showToast(text){
+function toast(text){
 
-    const toast=
-        document.getElementById("toast");
+    let el=document.getElementById("toast");
 
-    toast.textContent=text;
-
-    toast.style.display="block";
+    el.textContent=text;
+    el.style.display="block";
 
     clearTimeout(toastTimer);
 
     toastTimer=setTimeout(()=>{
 
-        toast.style.display="none";
+        el.style.display="none";
 
-    },2300);
+    },2200);
 }
 
 
-/* =====================================================
+/* =========================================================
+   DISTANCE
+========================================================= */
+
+function distance(a,b){
+
+    return Math.hypot(
+        a.x-b.x,
+        a.y-b.y
+    )/TILE;
+}
+
+
+/* =========================================================
    LOOP
-===================================================== */
+========================================================= */
 
-function gameLoop(){
+function loop(){
 
-    if(gameStarted){
+    tick++;
 
-        movePlayer();
+    if(game){
 
+        updatePlayer();
         updateTime();
-
         drawWorld();
-
         updateHUD();
     }
 
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(loop);
 }
 
 
-/* =====================================================
+/* =========================================================
    AUTOSAVE
-===================================================== */
+========================================================= */
 
 setInterval(()=>{
 
-    if(gameStarted){
-
+    if(game){
         saveGame();
     }
 
 },30000);
 
 
-/* =====================================================
-   START
-===================================================== */
+/* =========================================================
+   INIT
+========================================================= */
 
-gameLoop();
+loop();
 
 </script>
 
