@@ -3,451 +3,450 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fuja dos Zumbis</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Vida na Fazenda</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    overflow:hidden;
+    background:#111;
+    font-family:Arial,sans-serif;
 }
-
-body {
-    background: #111;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    user-select: none;
+canvas{
+    display:block;
+    image-rendering:pixelated;
 }
-
-canvas {
-    display: block;
-    background: #1c2a22;
+#hud{
+    position:fixed;
+    top:12px;
+    left:12px;
+    z-index:5;
+    color:white;
+    background:rgba(0,0,0,.65);
+    padding:12px 16px;
+    border-radius:10px;
+    line-height:1.6;
+    font-size:15px;
 }
-
-#menu,
-#gameOver {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    z-index: 10;
-    text-align: center;
+#help{
+    position:fixed;
+    bottom:12px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:5;
+    background:rgba(0,0,0,.7);
+    color:white;
+    padding:9px 16px;
+    border-radius:10px;
+    font-size:14px;
 }
-
-#gameOver {
-    display: none;
+#menu{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    z-index:20;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    text-align:center;
 }
-
-h1 {
-    font-size: 55px;
-    color: #7cff4f;
-    margin-bottom: 10px;
-    text-shadow: 0 0 15px #36ff00;
+#menu h1{
+    font-size:52px;
+    color:#79d34b;
+    text-shadow:3px 3px #315522;
+    margin-bottom:10px;
 }
-
-h2 {
-    font-size: 45px;
-    color: #ff4444;
-    margin-bottom: 10px;
+#menu p{
+    color:#ddd;
+    margin:5px;
 }
-
-p {
-    font-size: 18px;
-    margin: 8px;
-    color: #ddd;
+button{
+    margin-top:20px;
+    padding:14px 35px;
+    border:0;
+    border-radius:10px;
+    background:#79d34b;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
 }
-
-button {
-    margin-top: 25px;
-    padding: 15px 40px;
-    font-size: 20px;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    background: #65e638;
-    color: #10200b;
-    cursor: pointer;
-}
-
-button:hover {
-    transform: scale(1.05);
-    background: #82ff58;
-}
-
-#hud {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    color: white;
-    font-size: 20px;
-    z-index: 5;
-    display: none;
-    text-shadow: 2px 2px 3px black;
-}
-
-#healthBar {
-    width: 200px;
-    height: 20px;
-    border: 2px solid white;
-    margin-top: 5px;
-    background: #333;
-}
-
-#health {
-    width: 100%;
-    height: 100%;
-    background: #32e639;
-}
+button:hover{transform:scale(1.05)}
 </style>
 </head>
 
 <body>
 
 <div id="menu">
-    <h1>FUJA DOS ZUMBIS</h1>
-
-    <p>🧟 Sobreviva o máximo que conseguir!</p>
-    <p>⌨️ WASD = movimentar</p>
-    <p>🖱️ Mouse = mirar e atirar</p>
-
-    <button onclick="startGame()">JOGAR</button>
-</div>
-
-<div id="gameOver">
-    <h2>VOCÊ MORREU 💀</h2>
-
-    <p id="finalScore"></p>
-    <p id="finalKills"></p>
-
-    <button onclick="startGame()">JOGAR NOVAMENTE</button>
+    <h1>🌱 VIDA NA FAZENDA</h1>
+    <p>Construa sua nova vida no campo!</p>
+    <p>🌾 Plante • 💧 Regue • 💰 Venda • 🏡 Explore</p>
+    <button onclick="startGame()">COMEÇAR</button>
 </div>
 
 <div id="hud">
-    ❤️ VIDA
-    <div id="healthBar">
-        <div id="health"></div>
-    </div>
+    📅 Dia <span id="day">1</span><br>
+    🕐 <span id="clock">06:00</span><br>
+    💰 R$ <span id="money">100</span><br>
+    🌱 Sementes: <span id="seeds">5</span><br>
+    🥕 Colheitas: <span id="crops">0</span>
+</div>
 
-    <div>🏆 Pontos: <span id="score">0</span></div>
-    <div>🧟 Mortes: <span id="kills">0</span></div>
-    <div>⏱️ Tempo: <span id="time">0</span></div>
+<div id="help">
+    WASD = andar | E = plantar | R = regar | F = colher | G = vender
 </div>
 
 <canvas id="game"></canvas>
 
 <script>
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+window.addEventListener("resize",()=>{
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
 });
 
-let gameRunning = false;
+const TILE=48;
 
-let keys = {};
+let game=false;
 
-let mouse = {
-    x: canvas.width / 2,
-    y: canvas.height / 2,
-    down: false
+let keys={};
+
+document.addEventListener("keydown",e=>{
+    keys[e.key.toLowerCase()]=true;
+
+    if(!game)return;
+
+    if(e.key.toLowerCase()==="e") plant();
+    if(e.key.toLowerCase()==="r") water();
+    if(e.key.toLowerCase()==="f") harvest();
+    if(e.key.toLowerCase()==="g") sell();
+});
+
+document.addEventListener("keyup",e=>{
+    keys[e.key.toLowerCase()]=false;
+});
+
+/* =========================
+   JOGADOR
+========================= */
+
+let player={
+    x:0,
+    y:0,
+    speed:3
 };
 
-document.addEventListener("keydown", e => {
-    keys[e.key.toLowerCase()] = true;
-});
+/* =========================
+   FAZENDA
+========================= */
 
-document.addEventListener("keyup", e => {
-    keys[e.key.toLowerCase()] = false;
-});
+let farm=[];
 
-canvas.addEventListener("mousemove", e => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
+const COLS=28;
+const ROWS=18;
 
-canvas.addEventListener("mousedown", () => {
-    mouse.down = true;
-});
+function createFarm(){
 
-canvas.addEventListener("mouseup", () => {
-    mouse.down = false;
-});
+    farm=[];
 
-let player;
-let bullets = [];
-let zombies = [];
+    for(let y=0;y<ROWS;y++){
 
-let score = 0;
-let kills = 0;
-let survivalTime = 0;
+        farm[y]=[];
 
-let lastSpawn = 0;
-let lastShot = 0;
-let startTime = 0;
+        for(let x=0;x<COLS;x++){
 
-function startGame() {
+            let type="grass";
 
-    document.getElementById("menu").style.display = "none";
-    document.getElementById("gameOver").style.display = "none";
-    document.getElementById("hud").style.display = "block";
+            /*
+            área de água
+            */
 
-    player = {
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        size: 22,
-        speed: 4,
-        health: 100
-    };
+            if(x>=22 && y>=2 && y<=7){
+                type="water";
+            }
 
-    bullets = [];
-    zombies = [];
+            /*
+            casa
+            */
 
-    score = 0;
-    kills = 0;
-    survivalTime = 0;
+            if(x>=2 && x<=6 && y>=2 && y<=5){
+                type="house";
+            }
 
-    startTime = Date.now();
+            /*
+            terra de plantação
+            */
 
-    gameRunning = true;
+            if(x>=8 && x<=15 && y>=5 && y<=10){
+                type="soil";
+            }
 
-    update();
+            /*
+            caminho
+            */
+
+            if(y===12 && x>=2 && x<=20){
+                type="path";
+            }
+
+            /*
+            árvores
+            */
+
+            if(
+                Math.random()<0.07 &&
+                type==="grass" &&
+                x>1 &&
+                x<21
+            ){
+                type="tree";
+            }
+
+            farm[y][x]={
+                type:type,
+                crop:null,
+                watered:false
+            };
+        }
+    }
 }
 
-function spawnZombie() {
+/* =========================
+   PLANTAS
+========================= */
 
-    let side = Math.floor(Math.random() * 4);
+function plant(){
 
-    let x;
-    let y;
+    let t=getPlayerTile();
 
-    if (side === 0) {
-        x = Math.random() * canvas.width;
-        y = -40;
+    if(!t)return;
+
+    if(
+        t.type==="soil" &&
+        !t.crop &&
+        seeds>0
+    ){
+
+        t.crop={
+            stage:1,
+            watered:false
+        };
+
+        seeds--;
+
+        updateHUD();
     }
-
-    if (side === 1) {
-        x = canvas.width + 40;
-        y = Math.random() * canvas.height;
-    }
-
-    if (side === 2) {
-        x = Math.random() * canvas.width;
-        y = canvas.height + 40;
-    }
-
-    if (side === 3) {
-        x = -40;
-        y = Math.random() * canvas.height;
-    }
-
-    zombies.push({
-        x: x,
-        y: y,
-        size: 22,
-        speed: 1 + Math.random() * 0.8 + survivalTime / 100,
-        health: 1
-    });
 }
 
-function shoot() {
+function water(){
 
-    let angle = Math.atan2(
-        mouse.y - player.y,
-        mouse.x - player.x
-    );
+    let t=getPlayerTile();
 
-    bullets.push({
-        x: player.x,
-        y: player.y,
-        dx: Math.cos(angle) * 10,
-        dy: Math.sin(angle) * 10,
-        size: 5
-    });
+    if(!t)return;
+
+    if(t.crop){
+
+        t.watered=true;
+        t.crop.watered=true;
+
+        updateHUD();
+    }
 }
 
-function update() {
+function harvest(){
 
-    if (!gameRunning) return;
+    let t=getPlayerTile();
 
-    let now = Date.now();
+    if(!t || !t.crop)return;
 
-    survivalTime = Math.floor((now - startTime) / 1000);
+    if(t.crop.stage>=3){
 
-    /*
-    MOVIMENTO
-    */
+        t.crop=null;
 
-    if (keys["w"] || keys["arrowup"]) {
-        player.y -= player.speed;
+        crops++;
+
+        updateHUD();
     }
+}
 
-    if (keys["s"] || keys["arrowdown"]) {
-        player.y += player.speed;
-    }
+/* =========================
+   VENDA
+========================= */
 
-    if (keys["a"] || keys["arrowleft"]) {
-        player.x -= player.speed;
-    }
+function sell(){
 
-    if (keys["d"] || keys["arrowright"]) {
-        player.x += player.speed;
-    }
+    if(crops<=0)return;
 
-    player.x = Math.max(player.size, Math.min(canvas.width - player.size, player.x));
-    player.y = Math.max(player.size, Math.min(canvas.height - player.size, player.y));
+    money+=crops*25;
+    crops=0;
 
-    /*
-    TIRO
-    */
+    updateHUD();
+}
 
-    if (mouse.down && now - lastShot > 180) {
-        shoot();
-        lastShot = now;
-    }
+/* =========================
+   TEMPO
+========================= */
 
-    /*
-    BALAS
-    */
+let day=1;
+let hour=6;
+let minute=0;
 
-    for (let i = bullets.length - 1; i >= 0; i--) {
+let seeds=5;
+let crops=0;
+let money=100;
 
-        let b = bullets[i];
+let lastTime=Date.now();
 
-        b.x += b.dx;
-        b.y += b.dy;
+function updateTime(){
 
-        if (
-            b.x < -20 ||
-            b.x > canvas.width + 20 ||
-            b.y < -20 ||
-            b.y > canvas.height + 20
-        ) {
-            bullets.splice(i, 1);
-            continue;
+    let now=Date.now();
+
+    if(now-lastTime>1000){
+
+        minute+=10;
+
+        if(minute>=60){
+
+            minute=0;
+            hour++;
         }
 
         /*
-        COLISÃO COM ZUMBI
+        fim do dia
         */
 
-        for (let j = zombies.length - 1; j >= 0; j--) {
+        if(hour>=22){
 
-            let z = zombies[j];
-
-            let distance = Math.hypot(
-                b.x - z.x,
-                b.y - z.y
-            );
-
-            if (distance < z.size + b.size) {
-
-                z.health--;
-
-                bullets.splice(i, 1);
-
-                if (z.health <= 0) {
-
-                    zombies.splice(j, 1);
-
-                    kills++;
-                    score += 10;
-                }
-
-                break;
-            }
+            nextDay();
         }
+
+        lastTime=now;
+
+        updateHUD();
     }
-
-    /*
-    SPAWN DOS ZUMBIS
-    */
-
-    let spawnDelay = Math.max(
-        300,
-        1200 - survivalTime * 15
-    );
-
-    if (now - lastSpawn > spawnDelay) {
-
-        spawnZombie();
-
-        lastSpawn = now;
-    }
-
-    /*
-    ZUMBIS
-    */
-
-    for (let i = zombies.length - 1; i >= 0; i--) {
-
-        let z = zombies[i];
-
-        let angle = Math.atan2(
-            player.y - z.y,
-            player.x - z.x
-        );
-
-        z.x += Math.cos(angle) * z.speed;
-        z.y += Math.sin(angle) * z.speed;
-
-        let distance = Math.hypot(
-            player.x - z.x,
-            player.y - z.y
-        );
-
-        if (distance < player.size + z.size) {
-
-            player.health -= 0.4;
-
-            /*
-            Empurra o zumbi para evitar
-            que fique preso dentro do jogador.
-            */
-
-            z.x -= Math.cos(angle) * 3;
-            z.y -= Math.sin(angle) * 3;
-
-            if (player.health <= 0) {
-                endGame();
-            }
-        }
-    }
-
-    /*
-    HUD
-    */
-
-    document.getElementById("score").textContent = score;
-    document.getElementById("kills").textContent = kills;
-    document.getElementById("time").textContent = survivalTime;
-
-    document.getElementById("health").style.width =
-        Math.max(0, player.health) + "%";
-
-    draw();
-
-    requestAnimationFrame(update);
 }
 
-function draw() {
+function nextDay(){
+
+    day++;
+    hour=6;
+    minute=0;
 
     /*
-    FUNDO
+    crescimento das plantações
     */
 
-    ctx.fillStyle = "#18251d";
-    ctx.fillRect(
+    for(let y=0;y<ROWS;y++){
+
+        for(let x=0;x<COLS;x++){
+
+            let t=farm[y][x];
+
+            if(t.crop){
+
+                if(t.watered){
+
+                    t.crop.stage++;
+
+                    if(t.crop.stage>3){
+                        t.crop.stage=3;
+                    }
+
+                }
+
+                t.watered=false;
+            }
+        }
+    }
+
+    /*
+    ganha algumas sementes
+    */
+
+    seeds+=2;
+
+    updateHUD();
+}
+
+/* =========================
+   TILE DO JOGADOR
+========================= */
+
+function getPlayerTile(){
+
+    let tx=Math.floor(player.x/TILE);
+    let ty=Math.floor(player.y/TILE);
+
+    if(
+        tx<0||
+        ty<0||
+        tx>=COLS||
+        ty>=ROWS
+    )return null;
+
+    return farm[ty][tx];
+}
+
+/* =========================
+   MOVIMENTO
+========================= */
+
+function movement(){
+
+    let nx=player.x;
+    let ny=player.y;
+
+    if(keys["w"]||keys["arrowup"])
+        ny-=player.speed;
+
+    if(keys["s"]||keys["arrowdown"])
+        ny+=player.speed;
+
+    if(keys["a"]||keys["arrowleft"])
+        nx-=player.speed;
+
+    if(keys["d"]||keys["arrowright"])
+        nx+=player.speed;
+
+    nx=Math.max(15,Math.min(COLS*TILE-15,nx));
+    ny=Math.max(15,Math.min(ROWS*TILE-15,ny));
+
+    let tx=Math.floor(nx/TILE);
+    let ty=Math.floor(ny/TILE);
+
+    /*
+    impede entrar na água
+    */
+
+    if(farm[ty][tx].type!=="water"){
+
+        /*
+        impede entrar na casa
+        */
+
+        if(farm[ty][tx].type!=="house"){
+
+            player.x=nx;
+            player.y=ny;
+        }
+    }
+}
+
+/* =========================
+   DESENHAR MUNDO
+========================= */
+
+function drawWorld(){
+
+    ctx.clearRect(
         0,
         0,
         canvas.width,
@@ -455,228 +454,451 @@ function draw() {
     );
 
     /*
-    GRID DO CHÃO
+    câmera centralizada
     */
 
-    ctx.strokeStyle = "rgba(255,255,255,0.04)";
-    ctx.lineWidth = 1;
+    let camX=player.x-canvas.width/2;
+    let camY=player.y-canvas.height/2;
 
-    let grid = 50;
+    camX=Math.max(
+        0,
+        Math.min(
+            COLS*TILE-canvas.width,
+            camX
+        )
+    );
 
-    for (let x = 0; x < canvas.width; x += grid) {
+    camY=Math.max(
+        0,
+        Math.min(
+            ROWS*TILE-canvas.height,
+            camY
+        )
+    );
 
-        ctx.beginPath();
+    ctx.save();
 
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-
-        ctx.stroke();
-    }
-
-    for (let y = 0; y < canvas.height; y += grid) {
-
-        ctx.beginPath();
-
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-
-        ctx.stroke();
-    }
+    ctx.translate(-camX,-camY);
 
     /*
-    BALAS
+    tiles
     */
 
-    for (let b of bullets) {
+    for(let y=0;y<ROWS;y++){
 
-        ctx.beginPath();
+        for(let x=0;x<COLS;x++){
 
-        ctx.arc(
-            b.x,
-            b.y,
-            b.size,
-            0,
-            Math.PI * 2
-        );
+            let t=farm[y][x];
 
-        ctx.fillStyle = "#ffe600";
-        ctx.fill();
-    }
+            let px=x*TILE;
+            let py=y*TILE;
 
-    /*
-    ZUMBIS
-    */
+            /*
+            GRAMA
+            */
 
-    for (let z of zombies) {
+            if(t.type==="grass"){
 
-        /*
-        corpo
-        */
+                ctx.fillStyle="#68a94b";
 
-        ctx.beginPath();
+                ctx.fillRect(
+                    px,
+                    py,
+                    TILE,
+                    TILE
+                );
 
-        ctx.arc(
-            z.x,
-            z.y,
-            z.size,
-            0,
-            Math.PI * 2
-        );
+                /*
+                pequenos detalhes
+                */
 
-        ctx.fillStyle = "#5ca653";
-        ctx.fill();
+                ctx.fillStyle="#5d9844";
 
-        /*
-        olhos
-        */
+                ctx.fillRect(
+                    px+10,
+                    py+12,
+                    3,
+                    3
+                );
 
-        ctx.fillStyle = "white";
+                ctx.fillRect(
+                    px+32,
+                    py+30,
+                    3,
+                    3
+                );
+            }
 
-        ctx.beginPath();
+            /*
+            ÁGUA
+            */
 
-        ctx.arc(
-            z.x - 7,
-            z.y - 5,
-            4,
-            0,
-            Math.PI * 2
-        );
+            if(t.type==="water"){
 
-        ctx.arc(
-            z.x + 7,
-            z.y - 5,
-            4,
-            0,
-            Math.PI * 2
-        );
+                ctx.fillStyle="#4a9ed1";
 
-        ctx.fill();
+                ctx.fillRect(
+                    px,
+                    py,
+                    TILE,
+                    TILE
+                );
 
-        ctx.fillStyle = "#111";
+                ctx.strokeStyle="#76c5e8";
 
-        ctx.beginPath();
+                ctx.beginPath();
 
-        ctx.arc(
-            z.x - 7,
-            z.y - 5,
-            2,
-            0,
-            Math.PI * 2
-        );
+                ctx.moveTo(px+5,py+20);
+                ctx.lineTo(px+25,py+20);
+                ctx.lineTo(px+35,py+14);
 
-        ctx.arc(
-            z.x + 7,
-            z.y - 5,
-            2,
-            0,
-            Math.PI * 2
-        );
+                ctx.stroke();
+            }
 
-        ctx.fill();
+            /*
+            TERRA
+            */
 
-        /*
-        boca
-        */
+            if(t.type==="soil"){
 
-        ctx.strokeStyle = "#111";
-        ctx.lineWidth = 3;
+                ctx.fillStyle="#8a5a36";
 
-        ctx.beginPath();
+                ctx.fillRect(
+                    px,
+                    py,
+                    TILE,
+                    TILE
+                );
 
-        ctx.arc(
-            z.x,
-            z.y + 5,
-            8,
-            0,
-            Math.PI
-        );
+                ctx.strokeStyle="#674329";
 
-        ctx.stroke();
+                for(let i=8;i<TILE;i+=12){
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(px+i,py);
+                    ctx.lineTo(px+i,py+TILE);
+
+                    ctx.stroke();
+                }
+            }
+
+            /*
+            CAMINHO
+            */
+
+            if(t.type==="path"){
+
+                ctx.fillStyle="#c59b61";
+
+                ctx.fillRect(
+                    px,
+                    py,
+                    TILE,
+                    TILE
+                );
+            }
+
+            /*
+            CASA
+            */
+
+            if(t.type==="house"){
+
+                ctx.fillStyle="#d7b37a";
+
+                ctx.fillRect(
+                    px,
+                    py,
+                    TILE,
+                    TILE
+                );
+
+                ctx.fillStyle="#9d4637";
+
+                ctx.fillRect(
+                    px,
+                    py,
+                    TILE,
+                    14
+                );
+
+                /*
+                janela
+                */
+
+                if(x===3&&y===3){
+
+                    ctx.fillStyle="#6bb8d6";
+
+                    ctx.fillRect(
+                        px+12,
+                        py+15,
+                        24,
+                        20
+                    );
+                }
+            }
+
+            /*
+            ÁRVORE
+            */
+
+            if(t.type==="tree"){
+
+                ctx.fillStyle="#71452d";
+
+                ctx.fillRect(
+                    px+19,
+                    py+22,
+                    10,
+                    26
+                );
+
+                ctx.fillStyle="#34733b";
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    px+24,
+                    py+20,
+                    21,
+                    0,
+                    Math.PI*2
+                );
+
+                ctx.fill();
+
+                ctx.fillStyle="#438747";
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    px+13,
+                    py+13,
+                    13,
+                    0,
+                    Math.PI*2
+                );
+
+                ctx.fill();
+            }
+
+            /*
+            PLANTAÇÃO
+            */
+
+            if(t.crop){
+
+                let cx=px+24;
+                let cy=py+25;
+
+                if(t.crop.stage===1){
+
+                    ctx.fillStyle="#4c8d32";
+
+                    ctx.fillRect(
+                        cx-3,
+                        cy-5,
+                        6,
+                        12
+                    );
+                }
+
+                if(t.crop.stage===2){
+
+                    ctx.fillStyle="#388b35";
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        cx,
+                        cy,
+                        11,
+                        0,
+                        Math.PI*2
+                    );
+
+                    ctx.fill();
+                }
+
+                if(t.crop.stage>=3){
+
+                    ctx.fillStyle="#e89b32";
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        cx,
+                        cy,
+                        13,
+                        0,
+                        Math.PI*2
+                    );
+
+                    ctx.fill();
+
+                    ctx.fillStyle="#55a63e";
+
+                    ctx.fillRect(
+                        cx-3,
+                        cy-19,
+                        6,
+                        9
+                    );
+                }
+
+                /*
+                planta regada
+                */
+
+                if(t.watered){
+
+                    ctx.fillStyle="#69c7ff";
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        px+8,
+                        py+8,
+                        3,
+                        0,
+                        Math.PI*2
+                    );
+
+                    ctx.fill();
+                }
+            }
+        }
     }
 
     /*
     JOGADOR
     */
 
-    let angle = Math.atan2(
-        mouse.y - player.y,
-        mouse.x - player.x
+    ctx.fillStyle="#3159a8";
+
+    ctx.fillRect(
+        player.x-14,
+        player.y-17,
+        28,
+        32
     );
 
     /*
-    corpo
+    cabeça
     */
+
+    ctx.fillStyle="#f0b37e";
 
     ctx.beginPath();
 
     ctx.arc(
         player.x,
-        player.y,
-        player.size,
+        player.y-19,
+        11,
         0,
-        Math.PI * 2
+        Math.PI*2
     );
 
-    ctx.fillStyle = "#4ca9ff";
     ctx.fill();
 
     /*
-    arma
+    cabelo
     */
 
-    ctx.save();
+    ctx.fillStyle="#4a2b1c";
 
-    ctx.translate(
+    ctx.beginPath();
+
+    ctx.arc(
         player.x,
-        player.y
+        player.y-24,
+        11,
+        Math.PI,
+        Math.PI*2
     );
 
-    ctx.rotate(angle);
+    ctx.fill();
 
-    ctx.fillStyle = "#333";
+    /*
+    pernas
+    */
+
+    ctx.fillStyle="#333";
 
     ctx.fillRect(
-        5,
-        -5,
-        28,
+        player.x-10,
+        player.y+14,
+        8,
+        10
+    );
+
+    ctx.fillRect(
+        player.x+2,
+        player.y+14,
+        8,
         10
     );
 
     ctx.restore();
-
-    /*
-    olho
-    */
-
-    ctx.fillStyle = "white";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        player.x + Math.cos(angle) * 8,
-        player.y + Math.sin(angle) * 8,
-        5,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.fill();
 }
 
-function endGame() {
+/* =========================
+   HUD
+========================= */
 
-    gameRunning = false;
+function updateHUD(){
 
-    document.getElementById("hud").style.display = "none";
+    document.getElementById("day").textContent=day;
 
-    document.getElementById("gameOver").style.display = "flex";
+    let h=String(hour).padStart(2,"0");
+    let m=String(minute).padStart(2,"0");
 
-    document.getElementById("finalScore").textContent =
-        "🏆 Pontuação: " + score;
+    document.getElementById("clock").textContent=
+        h+":"+m;
 
-    document.getElementById("finalKills").textContent =
-        "🧟 Zumbis eliminados: " + kills;
+    document.getElementById("money").textContent=money;
+    document.getElementById("seeds").textContent=seeds;
+    document.getElementById("crops").textContent=crops;
 }
+
+/* =========================
+   LOOP
+========================= */
+
+function loop(){
+
+    if(game){
+
+        movement();
+        updateTime();
+        drawWorld();
+
+    }
+
+    requestAnimationFrame(loop);
+}
+
+/* =========================
+   COMEÇAR
+========================= */
+
+function startGame(){
+
+    document.getElementById("menu").style.display="none";
+
+    createFarm();
+
+    player.x=4*TILE;
+    player.y=8*TILE;
+
+    game=true;
+
+    updateHUD();
+}
+
+loop();
 
 </script>
 
